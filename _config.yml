@@ -18,7 +18,6 @@ baseurl: /
 domain: yz53665.github.io
 url: https://yz53665.github.io
 github_username: yz53665
-remote-theme: ariestiyansyah/naringu
 
 # Build settings
 markdown: kramdown
@@ -52,6 +51,12 @@ version:             2.0
 # Social Media
 github:				http://github.com/yz53665
 disqus:             qrqBlog
+
+# Theme Author (Please don't edit this line cause of MIT LICENSE rules)
+theme:
+  creator:			Rizky Ariestiyansyah
+  codename:			Naringu
+  link:             https://github.com/ariestiyansyah/naringu
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list

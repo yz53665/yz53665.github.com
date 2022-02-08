@@ -8,8 +8,8 @@ categories:
 
 
 <div id="outline-container-org66bf3a1" class="outline-2">
-<h2 id="org66bf3a1"><span class="section-number-2">1</span> 什么是 org-roam</h2>
-<div class="outline-text-2" id="text-1">
+<h2 id="org66bf3a1">什么是 org-roam</h2>
+<div class="outline-text-2" id="text-org66bf3a1">
 <p>
 org-roam 采用了 <a href="roam/20210201115837-zettelkasten.html">Zettelkasten</a> 理念，大致分为三步来管理自己的知识：<br />
 </p>
@@ -34,8 +34,8 @@ org-roam-server 这样的一款可视化神器，使得 org-roam 的使用体验
 </div>
 
 <div id="outline-container-orgb2d4937" class="outline-2">
-<h2 id="orgb2d4937"><span class="section-number-2">2</span> 环境</h2>
-<div class="outline-text-2" id="text-2">
+<h2 id="orgb2d4937">环境</h2>
+<div class="outline-text-2" id="text-orgb2d4937">
 <p>
 系统：macOS Catalina 10.15.7<br />
 emacs： Spacemacs v.0.300.0<br />
@@ -46,12 +46,12 @@ org-roam-server: 20210201<br />
 </div>
 
 <div id="outline-container-org3a4d10d" class="outline-2">
-<h2 id="org3a4d10d"><span class="section-number-2">3</span> org-roam</h2>
-<div class="outline-text-2" id="text-3">
+<h2 id="org3a4d10d">org-roam</h2>
+<div class="outline-text-2" id="text-org3a4d10d">
 </div>
 <div id="outline-container-orgdd3e482" class="outline-3">
-<h3 id="orgdd3e482"><span class="section-number-3">3.1</span> org-roam 简单使用流程</h3>
-<div class="outline-text-3" id="text-3-1">
+<h3 id="orgdd3e482">org-roam 简单使用流程</h3>
+<div class="outline-text-3" id="text-orgdd3e482">
 <p>
 org-roam 目前来说是以文件为最小单位来存储每条信息。文件之间可以互相建立引用来<br />
 快速跳转。以神经网络来进行类比，org-roam 下每条信息就像是神经网络上的一个神经元，<br />
@@ -61,8 +61,8 @@ org-roam 提供了几个函数来实现上述的创建、联系、跳转，org-r
 </p>
 </div>
 <div id="outline-container-orgbdafc94" class="outline-4">
-<h4 id="orgbdafc94"><span class="section-number-4">3.1.1</span> org-roam find file</h4>
-<div class="outline-text-4" id="text-3-1-1">
+<h4 id="orgbdafc94">org-roam find file</h4>
+<div class="outline-text-4" id="text-orgbdafc94">
 <p>
 查找对应的信息标题，如果不存在则会调用 org-roam-capture 进行创建，具体原理同<br />
 org-mode-cpature，spacemacs 对应快捷键 <code>SPC m r f</code> (mode -&gt; roam -&gt; find-file,<br />
@@ -77,8 +77,8 @@ org-mode-cpature，spacemacs 对应快捷键 <code>SPC m r f</code> (mode -&gt; 
 </div>
 
 <div id="outline-container-org3458155" class="outline-4">
-<h4 id="org3458155"><span class="section-number-4">3.1.2</span> org-roam insert</h4>
-<div class="outline-text-4" id="text-3-1-2">
+<h4 id="org3458155">org-roam insert</h4>
+<div class="outline-text-4" id="text-org3458155">
 <p>
 选中关键词进行连接，如果该关键词之前已经通过 org-roam 进行创建，则可直接进行<br />
 连接；如果未被创建，则会调用 org-roam-capture 进行创建，快捷键为 =SPC m r i=。效果如下：<br />
@@ -92,8 +92,8 @@ org-mode-cpature，spacemacs 对应快捷键 <code>SPC m r f</code> (mode -&gt; 
 </div>
 
 <div id="outline-container-org1b39ac3" class="outline-4">
-<h4 id="org1b39ac3"><span class="section-number-4">3.1.3</span> org-roam backlinks</h4>
-<div class="outline-text-4" id="text-3-1-3">
+<h4 id="org1b39ac3">org-roam backlinks</h4>
+<div class="outline-text-4" id="text-org1b39ac3">
 <p>
 如果想要跳转回之前的页面或者想要知道哪些页面引用了当前页面？可以使用 backlinks<br />
 实现。spacemacs 快捷键为 <code>SPC m r l</code><br />
@@ -108,8 +108,8 @@ org-mode-cpature，spacemacs 对应快捷键 <code>SPC m r f</code> (mode -&gt; 
 </div>
 
 <div id="outline-container-orgdba36f1" class="outline-3">
-<h3 id="orgdba36f1"><span class="section-number-3">3.2</span> org-roam capture 配置</h3>
-<div class="outline-text-3" id="text-3-2">
+<h3 id="orgdba36f1">org-roam capture 配置</h3>
+<div class="outline-text-3" id="text-orgdba36f1">
 <p>
 org-roam-capture-template 是在创建新的词条时可供选择的模版。通过自定义预制不<br />
 同的模版，可以满足不同的词条记录需求。具体的设置与 org-capture-template 大体<br />
@@ -141,12 +141,12 @@ org-roam-capture-template 是在创建新的词条时可供选择的模版。通
 </div>
 
 <div id="outline-container-org9b54642" class="outline-2">
-<h2 id="org9b54642"><span class="section-number-2">4</span> org-roam-server</h2>
-<div class="outline-text-2" id="text-4">
+<h2 id="org9b54642">org-roam-server</h2>
+<div class="outline-text-2" id="text-org9b54642">
 </div>
 <div id="outline-container-org6117471" class="outline-3">
-<h3 id="org6117471"><span class="section-number-3">4.1</span> 在 spacemacs 中使用 layer 配置 org-roam-server</h3>
-<div class="outline-text-3" id="text-4-1">
+<h3 id="org6117471">在 spacemacs 中使用 layer 配置 org-roam-server</h3>
+<div class="outline-text-3" id="text-org6117471">
 <p>
 首先需要在配置文件的 dotspacemacs/layers 下指定个人 layer 的路径:<br />
 </p>
@@ -220,8 +220,8 @@ org-roam-capture-template 是在创建新的词条时可供选择的模版。通
 </div>
 
 <div id="outline-container-org34fd725" class="outline-3">
-<h3 id="org34fd725"><span class="section-number-3">4.2</span> org-roam Protocol 配置</h3>
-<div class="outline-text-3" id="text-4-2">
+<h3 id="org34fd725">org-roam Protocol 配置</h3>
+<div class="outline-text-3" id="text-org34fd725">
 <p>
 在完成上文的配置工作后，已经可以在网页中浏览创建的词条以及词条之间的联系。<br />
 但当点击节点时仍然无法跳转到对应的词条。下面需要配置 <a href="https://www.orgroam.com/manual.html#Installation-_00281_0029">org-roam Protocol</a> 来<br />

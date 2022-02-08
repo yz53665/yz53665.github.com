@@ -4,7 +4,7 @@
  <title>QRQ's Blog</title>
  <link href="http://localhost:4000/atom.xml" rel="self"/>
  <link href="http://localhost:4000/"/>
- <updated>2022-02-09T00:43:17+08:00</updated>
+ <updated>2022-02-09T00:50:49+08:00</updated>
  <id>http://localhost:4000</id>
  <author>
    <name>QRQ</name>
@@ -750,9 +750,9 @@ ssh 远程连接树莓派，安装 &lt;b&gt;tightvncserver&lt;/b&gt; ，具体�
    <link href="http://localhost:4000/blog/2021/02/24/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E8%AE%B0%E5%BD%95/"/>
    <updated>2021-02-24T00:00:00+08:00</updated>
    <id>http://localhost:4000/blog/2021/02/24/博客搭建记录</id>
-   <content type="html">&lt;div id=&quot;outline-container-orgbffaaf5&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;orgbffaaf5&quot;&gt;安装 Jekyll&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgbffaaf5&quot;&gt;
+   <content type="html">&lt;div id=&quot;outline-container-org523a6df&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org523a6df&quot;&gt;安装 Jekyll&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org523a6df&quot;&gt;
 &lt;/div&gt;
 &lt;div id=&quot;outline-container-org4268986&quot; class=&quot;outline-3&quot;&gt;
 &lt;h3 id=&quot;org4268986&quot;&gt;安装 Ruby&lt;/h3&gt;
@@ -781,9 +781,9 @@ Tips：mac 下的 ruby 已经包含了 RubyGems
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id=&quot;outline-container-org47d4967&quot; class=&quot;outline-3&quot;&gt;
-&lt;h3 id=&quot;org47d4967&quot;&gt;安装 Jekyll&lt;/h3&gt;
-&lt;div class=&quot;outline-text-3&quot; id=&quot;text-org47d4967&quot;&gt;
+&lt;div id=&quot;outline-container-orgbffaaf5&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;orgbffaaf5&quot;&gt;安装 Jekyll&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-orgbffaaf5&quot;&gt;
 &lt;div class=&quot;org-src-container&quot;&gt;
 &lt;pre class=&quot;src src-bash&quot;&gt;sudo gem install jekyll --pre
 &lt;/pre&gt;
@@ -792,6 +792,33 @@ Tips：mac 下的 ruby 已经包含了 RubyGems
 速度会比较慢，请耐心等待
 &lt;/p&gt;
 &lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-orgda836ff&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgda836ff&quot;&gt;使用github + Jekyll创建网站&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgda836ff&quot;&gt;
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-bash&quot;&gt;jekyll new JekyllBlog
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;
+该指令会在当前目录下创建一个叫 &lt;b&gt;JekyllBlog&lt;/b&gt; 的文件夹，里面会包含网站需要的基本
+文件。
+&lt;/p&gt;
+
+&lt;p&gt;
+进入创建的文件夹下，打开Gemfile，将里面 &lt;code&gt;gem &quot;jekyll&quot;&lt;/code&gt; 开头的行注释掉，将这一
+行改为：
+&lt;/p&gt;
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-bash&quot;&gt;gem &lt;span style=&quot;color: #66cccc;&quot;&gt;&quot;github-pages&quot;&lt;/span&gt;, &lt;span style=&quot;color: #66cccc;&quot;&gt;&quot;~&amp;gt; GITHUB-PAGES-VERSION&quot;&lt;/span&gt;, group: :jekyll_plugins
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;
+其中 &lt;b&gt;GITHUB-PAGES-VERSION&lt;/b&gt; 替换成这个&lt;a href=&quot;https://pages.github.com/versions/&quot;&gt;网站&lt;/a&gt;中 &lt;b&gt;github-pages&lt;/b&gt; 的最新版本号。
+保存后在命令行输入 &lt;code&gt;bundle install&lt;/code&gt; 更新插件。
+&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
@@ -835,6 +862,21 @@ emacs 非常贴心的提供了两个 hook，帮助在导出后完成后自动进
 org-publish-after-export-hook   &lt;span style=&quot;color: #999999; font-style: italic;&quot;&gt;;;&lt;/span&gt;&lt;span style=&quot;color: #999999; font-style: italic;&quot;&gt;when going through org-publish&lt;/span&gt;
 &lt;/pre&gt;
 &lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org9ec0caf&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org9ec0caf&quot;&gt;配置&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org9ec0caf&quot;&gt;
+&lt;p&gt;
+在push到github之前需要在 &lt;code&gt;_conf.yml&lt;/code&gt; 中加入以下内容:
+&lt;/p&gt;
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-jekyll&quot;&gt;  domain: my-site.github.io       # if you want to force HTTPS, specify the domain without the http at the start, e.g. example.com
+url: https://my-site.github.io  # the base hostname and protocol for your site, e.g. http://example.com
+baseurl: /REPOSITORY-NAME/      # place folder name if the site is served in a subfolder
+&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;

@@ -18,6 +18,7 @@ baseurl: /
 domain: yz53665.github.io
 url: https://yz53665.github.io
 github_username: yz53665
+remote-theme: ariestiyansyah/naringu
 
 # Build settings
 markdown: kramdown

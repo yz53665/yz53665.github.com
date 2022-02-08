@@ -117,9 +117,9 @@
         <div class="post">
   <h1 class="post-title">博客搭建记录</h1>
   <span class="post-date">24 Feb 2021</span>
-  <div id="outline-container-orgbffaaf5" class="outline-2">
-<h2 id="orgbffaaf5">安装 Jekyll</h2>
-<div class="outline-text-2" id="text-orgbffaaf5">
+  <div id="outline-container-org523a6df" class="outline-2">
+<h2 id="org523a6df">安装 Jekyll</h2>
+<div class="outline-text-2" id="text-org523a6df">
 </div>
 <div id="outline-container-org4268986" class="outline-3">
 <h3 id="org4268986">安装 Ruby</h3>
@@ -148,9 +148,9 @@ Tips：mac 下的 ruby 已经包含了 RubyGems
 </div>
 </div>
 
-<div id="outline-container-org47d4967" class="outline-3">
-<h3 id="org47d4967">安装 Jekyll</h3>
-<div class="outline-text-3" id="text-org47d4967">
+<div id="outline-container-orgbffaaf5" class="outline-3">
+<h3 id="orgbffaaf5">安装 Jekyll</h3>
+<div class="outline-text-3" id="text-orgbffaaf5">
 <div class="org-src-container">
 <pre class="src src-bash">sudo gem install jekyll --pre
 </pre>
@@ -159,6 +159,33 @@ Tips：mac 下的 ruby 已经包含了 RubyGems
 速度会比较慢，请耐心等待
 </p>
 </div>
+</div>
+</div>
+
+<div id="outline-container-orgda836ff" class="outline-2">
+<h2 id="orgda836ff">使用github + Jekyll创建网站</h2>
+<div class="outline-text-2" id="text-orgda836ff">
+<div class="org-src-container">
+<pre class="src src-bash">jekyll new JekyllBlog
+</pre>
+</div>
+<p>
+该指令会在当前目录下创建一个叫 <b>JekyllBlog</b> 的文件夹，里面会包含网站需要的基本
+文件。
+</p>
+
+<p>
+进入创建的文件夹下，打开Gemfile，将里面 <code>gem "jekyll"</code> 开头的行注释掉，将这一
+行改为：
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">gem <span style="color: #66cccc;">"github-pages"</span>, <span style="color: #66cccc;">"~&gt; GITHUB-PAGES-VERSION"</span>, group: :jekyll_plugins
+</pre>
+</div>
+<p>
+其中 <b>GITHUB-PAGES-VERSION</b> 替换成这个<a href="https://pages.github.com/versions/">网站</a>中 <b>github-pages</b> 的最新版本号。
+保存后在命令行输入 <code>bundle install</code> 更新插件。
+</p>
 </div>
 </div>
 
@@ -202,6 +229,21 @@ emacs 非常贴心的提供了两个 hook，帮助在导出后完成后自动进
 org-publish-after-export-hook   <span style="color: #999999; font-style: italic;">;;</span><span style="color: #999999; font-style: italic;">when going through org-publish</span>
 </pre>
 </div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9ec0caf" class="outline-2">
+<h2 id="org9ec0caf">配置</h2>
+<div class="outline-text-2" id="text-org9ec0caf">
+<p>
+在push到github之前需要在 <code>_conf.yml</code> 中加入以下内容:
+</p>
+<div class="org-src-container">
+<pre class="src src-jekyll">  domain: my-site.github.io       # if you want to force HTTPS, specify the domain without the http at the start, e.g. example.com
+url: https://my-site.github.io  # the base hostname and protocol for your site, e.g. http://example.com
+baseurl: /REPOSITORY-NAME/      # place folder name if the site is served in a subfolder
+</pre>
 </div>
 </div>
 </div>

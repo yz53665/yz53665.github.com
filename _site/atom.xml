@@ -1,0 +1,1121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+ <title>QRQ's Blog</title>
+ <link href="http://localhost:4000/atom.xml" rel="self"/>
+ <link href="http://localhost:4000/"/>
+ <updated>2022-02-08T23:31:50+08:00</updated>
+ <id>http://localhost:4000</id>
+ <author>
+   <name>QRQ</name>
+   <email>875423353@qq.com</email>
+ </author>
+
+ 
+ <entry>
+   <title>Linux下基于Mingw的QT开发环境配置</title>
+   <link href="http://localhost:4000/linux/qt/2022/02/03/Linux%E4%B8%8B%E5%9F%BA%E4%BA%8EMingw%E7%9A%84QT%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/"/>
+   <updated>2022-02-03T00:00:00+08:00</updated>
+   <id>http://localhost:4000/linux/qt/2022/02/03/Linux下基于Mingw的QT开发环境配置</id>
+   <content type="html">&lt;div id=&quot;outline-container-org8923e4d&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org8923e4d&quot;&gt;背景&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org8923e4d&quot;&gt;
+&lt;p&gt;
+开发环境为linux,程序运行环境为windows,项目使用了windows下特有的QT库,这使得其&lt;br /&gt;
+无法在Linux下进行开发.&lt;br /&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-orgb2fef38&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgb2fef38&quot;&gt;MXE&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgb2fef38&quot;&gt;
+&lt;p&gt;
+&lt;a href=&quot;https://mxe.cc/&quot;&gt;MXE&lt;/a&gt;(M Cross Environment)是一个GNU的Makefile系统,本质是一堆Makefile文件,用于交&lt;br /&gt;
+叉编译各种平台下的编译器,开源软件,如QT,SQL等.对于Windows,它提供了Mingw-w64工&lt;br /&gt;
+具链,可以非常方便的编译绝大多数的库.&lt;br /&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-orgc99c96e&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgc99c96e&quot;&gt;MXE安装&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgc99c96e&quot;&gt;
+&lt;p&gt;
+MXE官网提供了两种安装方式:1.Linux发行版仓库; 2.源码编译&lt;br /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+我使用的Linux发行版为Ubuntu20.04,下载MXE奇慢无比,如果不是CPU特别拉跨不如直接&lt;br /&gt;
+源码编译来的快.这里只讲解源码编译,仓库下载请参考&lt;a href=&quot;https://mxe.cc/&quot;&gt;官网&lt;/a&gt;说明.&lt;br /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+Ubuntu发行版下需要安装一些前置库(其它发行版请参考官网说明):&lt;br /&gt;
+&lt;/p&gt;
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-bash&quot;&gt;apt-get install &lt;span style=&quot;color: #66cccc;&quot;&gt;\&lt;/span&gt;
+ autoconf &lt;span style=&quot;color: #66cccc;&quot;&gt;\&lt;/span&gt;
+ automake &lt;span style=&quot;color: #66cccc;&quot;&gt;\&lt;/span&gt;
+ autopoint &lt;span style=&quot;color: #66cccc;&quot;&gt;\&lt;/span&gt;
+ bash &lt;span style=&quot;color: #66cccc;&quot;&gt;\&lt;/span&gt;
+ bison &lt;span style=&quot;color: #66cccc;&quot;&gt;\&lt;/span&gt;
+ bzip2 &lt;span style=&quot;color: #66cccc;&quot;&gt;\&lt;/span&gt;
+ flex &lt;span style=&quot;color: #66cccc;&quot;&gt;\&lt;/span&gt;
+ g++ &lt;span style=&quot;color: #66cccc;&quot;&gt;\&lt;/span&gt;
+ g++-multilib &lt;span style=&quot;color: #66cccc;&quot;&gt;\&lt;/span&gt;
+ gettext &lt;span style=&quot;color: #66cccc;&quot;&gt;\&lt;/span&gt;
+ git &lt;span style=&quot;color: #66cccc;&quot;&gt;\&lt;/span&gt;
+ gperf &lt;span style=&quot;color: #66cccc;&quot;&gt;\&lt;/span&gt;
+ intltool &lt;span style=&quot;color: #66cccc;&quot;&gt;\&lt;/span&gt;
+ libc6-dev-i386 &lt;span style=&quot;color: #66cccc;&quot;&gt;\&lt;/span&gt;
+ libgdk-pixbuf2.0-dev &lt;span style=&quot;color: #66cccc;&quot;&gt;\&lt;/span&gt;
+ libltdl-dev &lt;span style=&quot;color: #66cccc;&quot;&gt;\&lt;/span&gt;
+ libssl-dev &lt;span style=&quot;color: #66cccc;&quot;&gt;\&lt;/span&gt;
+ libtool-bin &lt;span style=&quot;color: #66cccc;&quot;&gt;\&lt;/span&gt;
+ libxml-parser-perl &lt;span style=&quot;color: #66cccc;&quot;&gt;\&lt;/span&gt;
+ lzip &lt;span style=&quot;color: #66cccc;&quot;&gt;\&lt;/span&gt;
+ make &lt;span style=&quot;color: #66cccc;&quot;&gt;\&lt;/span&gt;
+ openssl &lt;span style=&quot;color: #66cccc;&quot;&gt;\&lt;/span&gt;
+ p7zip-full &lt;span style=&quot;color: #66cccc;&quot;&gt;\&lt;/span&gt;
+ patch &lt;span style=&quot;color: #66cccc;&quot;&gt;\&lt;/span&gt;
+ perl &lt;span style=&quot;color: #66cccc;&quot;&gt;\&lt;/span&gt;
+ python &lt;span style=&quot;color: #66cccc;&quot;&gt;\&lt;/span&gt;
+ ruby &lt;span style=&quot;color: #66cccc;&quot;&gt;\&lt;/span&gt;
+ sed &lt;span style=&quot;color: #66cccc;&quot;&gt;\&lt;/span&gt;
+ unzip &lt;span style=&quot;color: #66cccc;&quot;&gt;\&lt;/span&gt;
+ wget &lt;span style=&quot;color: #66cccc;&quot;&gt;\&lt;/span&gt;
+ xz-utils
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+从github克隆项目:&lt;br /&gt;
+&lt;/p&gt;
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-bash&quot;&gt;git clone https://github.com/mxe/mxe.git
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+然后可以把项目移动到 &lt;b&gt;opt&lt;/b&gt; 路径下(linux下的大型程序或库都可以放在这个文件夹&lt;br /&gt;
+下,官方推荐):&lt;br /&gt;
+&lt;/p&gt;
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-bash&quot;&gt;sudo mv mxe /opt/mxe
+&lt;span style=&quot;color: #cc99cc;&quot;&gt;cd&lt;/span&gt; /opt/mxe
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org0ade45c&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org0ade45c&quot;&gt;MXE基本使用&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org0ade45c&quot;&gt;
+&lt;p&gt;
+目前MXE下Mingw支持4个平台:&lt;br /&gt;
+&lt;/p&gt;
+&lt;table border=&quot;2&quot; cellspacing=&quot;0&quot; cellpadding=&quot;6&quot; rules=&quot;groups&quot; frame=&quot;hsides&quot;&gt;
+
+
+&lt;colgroup&gt;
+&lt;col  class=&quot;org-left&quot; /&gt;
+
+&lt;col  class=&quot;org-left&quot; /&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th scope=&quot;col&quot; class=&quot;org-left&quot;&gt;平台&lt;/th&gt;
+&lt;th scope=&quot;col&quot; class=&quot;org-left&quot;&gt;说明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class=&quot;org-left&quot;&gt;x86_64-w64-mingw32.static&lt;/td&gt;
+&lt;td class=&quot;org-left&quot;&gt;64位系统静态库&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class=&quot;org-left&quot;&gt;x86_64-w64-mingw32.shared&lt;/td&gt;
+&lt;td class=&quot;org-left&quot;&gt;64位系统动态库&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class=&quot;org-left&quot;&gt;i686-w64-mingw32.static&lt;/td&gt;
+&lt;td class=&quot;org-left&quot;&gt;32位系统静态库&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class=&quot;org-left&quot;&gt;i686-w64-mingw32.shared&lt;/td&gt;
+&lt;td class=&quot;org-left&quot;&gt;32位系统动态库&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;
+静态库就是想生成单个可执行文件,动态库就是一个可执行文件带一大堆.dll文件,以上&lt;br /&gt;
+平台可以在编译时使用 &lt;b&gt;MXE_TARGETS&lt;/b&gt; 来指定.&lt;br /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+我编译QT时使用如下指令:&lt;br /&gt;
+&lt;/p&gt;
+
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-bash&quot;&gt;make &lt;span style=&quot;color: #ffcc66;&quot;&gt;MXE_TARGETS&lt;/span&gt;=&lt;span style=&quot;color: #66cccc;&quot;&gt;'x86_64-w64-mingw32.static x86_64-w64-mingw32.shared'&lt;/span&gt; qt5 -j 7 -k
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;ul class=&quot;org-ul&quot;&gt;
+&lt;li&gt;MXE_TARGETS 用于指定编译平台&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;qt5 为想要编译的库&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;-j 7 为编译时最高使用7个cpu核心并行编译&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;-k 为在编译过程中如果发生错误,跳过错误相关编译流程,尽可能继续往下执行,如果&lt;br /&gt;
+不加这个flag,编译出错会直接退出&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+编译时间较长,可以睡个午觉起来再看结果.&lt;br /&gt;
+如果编译中有错误导致一些库没有编译成功,输入上面的指令重新编译就行,&lt;br /&gt;
+大部分的错误是由于网络环境不佳导致一些库下载错误.&lt;br /&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org3e03746&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org3e03746&quot;&gt;编译所需库下载错误&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org3e03746&quot;&gt;
+&lt;p&gt;
+如果某些库下载特别慢或下载错误,可以进入/mxe/log/文件夹下找到对应库名的log&lt;br /&gt;
+文件,在里面有下载地址,直接复制下载地址并使用浏览器或其它下载工具下载,下载后的&lt;br /&gt;
+包重命名为log文件中对应的名字并将其放入/mxe/pkg/文件夹下,重新运行上面的指令即&lt;br /&gt;
+可跳过相关下载流程.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>正则表达式匹配</title>
+   <link href="http://localhost:4000/other/2021/04/13/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%8C%B9%E9%85%8D/"/>
+   <updated>2021-04-13T00:00:00+08:00</updated>
+   <id>http://localhost:4000/other/2021/04/13/正则表达式匹配</id>
+   <content type="html">&lt;div id=&quot;outline-container-orgc07e946&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgc07e946&quot;&gt;元字符&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgc07e946&quot;&gt;
+&lt;table border=&quot;2&quot; cellspacing=&quot;0&quot; cellpadding=&quot;6&quot; rules=&quot;groups&quot; frame=&quot;hsides&quot;&gt;
+
+
+&lt;colgroup&gt;
+&lt;col  class=&quot;org-left&quot; /&gt;
+
+&lt;col  class=&quot;org-left&quot; /&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th scope=&quot;col&quot; class=&quot;org-left&quot;&gt;符号&lt;/th&gt;
+&lt;th scope=&quot;col&quot; class=&quot;org-left&quot;&gt;说明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class=&quot;org-left&quot;&gt;.&lt;/td&gt;
+&lt;td class=&quot;org-left&quot;&gt;匹配任意单个字符&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class=&quot;org-left&quot;&gt;[]&lt;/td&gt;
+&lt;td class=&quot;org-left&quot;&gt;字符集, 内部的任何一个都可以匹配一次&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class=&quot;org-left&quot;&gt;[^]&lt;/td&gt;
+&lt;td class=&quot;org-left&quot;&gt;否定字符集, 内部的除外&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class=&quot;org-left&quot;&gt;{}&lt;/td&gt;
+&lt;td class=&quot;org-left&quot;&gt;设定重复次数范围&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class=&quot;org-left&quot;&gt;()&lt;/td&gt;
+&lt;td class=&quot;org-left&quot;&gt;内部字符看做一个整体&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class=&quot;org-left&quot;&gt;&lt;code&gt;*&lt;/code&gt;&lt;/td&gt;
+&lt;td class=&quot;org-left&quot;&gt;重复大于等于零次&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class=&quot;org-left&quot;&gt;+&lt;/td&gt;
+&lt;td class=&quot;org-left&quot;&gt;重复大于等于一次&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class=&quot;org-left&quot;&gt;？&lt;/td&gt;
+&lt;td class=&quot;org-left&quot;&gt;0 或 1 次&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class=&quot;org-left&quot;&gt;&lt;code&gt;^&lt;/code&gt;&lt;/td&gt;
+&lt;td class=&quot;org-left&quot;&gt;从头开始匹配&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class=&quot;org-left&quot;&gt;&lt;code&gt;$&lt;/code&gt;&lt;/td&gt;
+&lt;td class=&quot;org-left&quot;&gt;从结尾开始匹配&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org6505db1&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org6505db1&quot;&gt;简写字符集&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org6505db1&quot;&gt;
+&lt;table border=&quot;2&quot; cellspacing=&quot;0&quot; cellpadding=&quot;6&quot; rules=&quot;groups&quot; frame=&quot;hsides&quot;&gt;
+
+
+&lt;colgroup&gt;
+&lt;col  class=&quot;org-left&quot; /&gt;
+
+&lt;col  class=&quot;org-left&quot; /&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th scope=&quot;col&quot; class=&quot;org-left&quot;&gt;简写&lt;/th&gt;
+&lt;th scope=&quot;col&quot; class=&quot;org-left&quot;&gt;描述&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class=&quot;org-left&quot;&gt;.&lt;/td&gt;
+&lt;td class=&quot;org-left&quot;&gt;除换行符外的所有字符&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class=&quot;org-left&quot;&gt;\w&lt;/td&gt;
+&lt;td class=&quot;org-left&quot;&gt;匹配所有字母数字，等同于 [a-zA-Z0-9_]&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class=&quot;org-left&quot;&gt;\W&lt;/td&gt;
+&lt;td class=&quot;org-left&quot;&gt;匹配所有非字母数字，即符号，等同于： [^\w]&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class=&quot;org-left&quot;&gt;\d&lt;/td&gt;
+&lt;td class=&quot;org-left&quot;&gt;匹配数字： [0-9]&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class=&quot;org-left&quot;&gt;\D&lt;/td&gt;
+&lt;td class=&quot;org-left&quot;&gt;匹配非数字： [^\d]&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class=&quot;org-left&quot;&gt;\s&lt;/td&gt;
+&lt;td class=&quot;org-left&quot;&gt;匹配所有空格字符，等同于： [\t\n\f\r\p{Z}]&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class=&quot;org-left&quot;&gt;&amp;sect;&lt;/td&gt;
+&lt;td class=&quot;org-left&quot;&gt;匹配所有非空格字符： [^\s]&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class=&quot;org-left&quot;&gt;\f&lt;/td&gt;
+&lt;td class=&quot;org-left&quot;&gt;匹配一个换页符&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class=&quot;org-left&quot;&gt;\n&lt;/td&gt;
+&lt;td class=&quot;org-left&quot;&gt;匹配一个换行符&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class=&quot;org-left&quot;&gt;\r&lt;/td&gt;
+&lt;td class=&quot;org-left&quot;&gt;匹配一个回车符&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class=&quot;org-left&quot;&gt;\t&lt;/td&gt;
+&lt;td class=&quot;org-left&quot;&gt;匹配一个制表符&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class=&quot;org-left&quot;&gt;\v&lt;/td&gt;
+&lt;td class=&quot;org-left&quot;&gt;匹配一个垂直制表符&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class=&quot;org-left&quot;&gt;\p&lt;/td&gt;
+&lt;td class=&quot;org-left&quot;&gt;匹配 CR/LF（等同于 \r\n），用来匹配 DOS 行终止符&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org2fc9da7&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org2fc9da7&quot;&gt;零宽度断言（emacs 不支持）&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org2fc9da7&quot;&gt;
+&lt;table border=&quot;2&quot; cellspacing=&quot;0&quot; cellpadding=&quot;6&quot; rules=&quot;groups&quot; frame=&quot;hsides&quot;&gt;
+
+
+&lt;colgroup&gt;
+&lt;col  class=&quot;org-left&quot; /&gt;
+
+&lt;col  class=&quot;org-left&quot; /&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th scope=&quot;col&quot; class=&quot;org-left&quot;&gt;符号&lt;/th&gt;
+&lt;th scope=&quot;col&quot; class=&quot;org-left&quot;&gt;描述&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class=&quot;org-left&quot;&gt;?=&lt;/td&gt;
+&lt;td class=&quot;org-left&quot;&gt;正先行断言-存在&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class=&quot;org-left&quot;&gt;?!&lt;/td&gt;
+&lt;td class=&quot;org-left&quot;&gt;负先行断言-排除&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class=&quot;org-left&quot;&gt;?&amp;lt;=&lt;/td&gt;
+&lt;td class=&quot;org-left&quot;&gt;正后发断言-存在&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class=&quot;org-left&quot;&gt;?&amp;lt;!&lt;/td&gt;
+&lt;td class=&quot;org-left&quot;&gt;负后发断言-排除&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>emacs lisp 学习记录</title>
+   <link href="http://localhost:4000/emacs/2021/04/10/emacs-lisp%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/"/>
+   <updated>2021-04-10T00:00:00+08:00</updated>
+   <id>http://localhost:4000/emacs/2021/04/10/emacs lisp学习记录</id>
+   <content type="html">&lt;div id=&quot;outline-container-org891fecc&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org891fecc&quot;&gt;基础&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org891fecc&quot;&gt;
+&lt;ul class=&quot;org-ul&quot;&gt;
+&lt;li&gt;2.表示整数, 2.0 才表示浮点数&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;函数以 p 结尾一般都会返回 bool 值, p 表示 predicate （断言）&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;nil 和（）表示 False, 其它都是 True&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;数字比较相等 &lt;b&gt;(= 3 3)&lt;/b&gt; 不相等 &lt;b&gt;(/= 3 4)&lt;/b&gt;&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;字符比较 equal , 字符(&quot;abc&quot;)和标志('abc)是相等的, 不相等用(not)&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;
+函数 eq 比较两者是否是统一 lisp 对象, 大部分时间不同&lt;br /&gt;
+&lt;/p&gt;
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-elisp&quot;&gt;(princ (eq 'a 'a))
+(print (eq &lt;span style=&quot;color: #66cccc;&quot;&gt;&quot;a&quot;&lt;/span&gt; &lt;span style=&quot;color: #66cccc;&quot;&gt;&quot;a&quot;&lt;/span&gt;))
+&lt;/pre&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;setq 设置全局变量&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;let 中 setq 设置的是局部变量&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;当有 else 时使用 if, 没有的时候使用 when&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;当 if 语句不止一条时,可以使用 progn 来创建一个语句块, 且它会返回最后一个表达&lt;br /&gt;
+式的值&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org63bb1e6&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org63bb1e6&quot;&gt;序列数据&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org63bb1e6&quot;&gt;
+&lt;/div&gt;
+&lt;div id=&quot;outline-container-org0c65e7c&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;org0c65e7c&quot;&gt;数据分类&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-org0c65e7c&quot;&gt;
+&lt;p&gt;
+sequence (取值用函数 elt)&lt;br /&gt;
+&lt;/p&gt;
+&lt;ul class=&quot;org-ul&quot;&gt;
+&lt;li&gt;list&lt;br /&gt;
+&lt;ul class=&quot;org-ul&quot;&gt;
+&lt;li&gt;Associate List&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;Peoperty list&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;array (取值用函数 aref)&lt;br /&gt;
+&lt;ul class=&quot;org-ul&quot;&gt;
+&lt;li&gt;vector&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;string&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org63136e1&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;org63136e1&quot;&gt;数组&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-org63136e1&quot;&gt;
+&lt;ul class=&quot;org-ul&quot;&gt;
+&lt;li&gt;&lt;p&gt;
+数组的运行与否&lt;br /&gt;
+&lt;/p&gt;
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-elisp&quot;&gt;(&lt;span style=&quot;color: #99cc99;&quot;&gt;setq&lt;/span&gt; v (vector 3 x 5))
+(princ v)
+(&lt;span style=&quot;color: #99cc99;&quot;&gt;setq&lt;/span&gt; v [3 x 5])
+(print v)
+&lt;/pre&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-orgc675f4c&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;orgc675f4c&quot;&gt;list&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-orgc675f4c&quot;&gt;
+&lt;ul class=&quot;org-ul&quot;&gt;
+&lt;li&gt;&lt;p&gt;
+创建方式&lt;br /&gt;
+&lt;/p&gt;
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-elisp&quot;&gt;&lt;span id=&quot;coderef-auto&quot; class=&quot;coderef-off&quot;&gt;(&lt;span style=&quot;color: #99cc99;&quot;&gt;setq&lt;/span&gt; mylist (list 1 &lt;span style=&quot;color: #66cccc;&quot;&gt;&quot;b&quot;&lt;/span&gt; 3)) (auto)&lt;/span&gt;
+(princ mylist)
+&lt;span id=&quot;coderef-noauto&quot; class=&quot;coderef-off&quot;&gt;(&lt;span style=&quot;color: #99cc99;&quot;&gt;setq&lt;/span&gt; mylist '(a b c)) (noauto)&lt;/span&gt;
+(print mylist)
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;ul class=&quot;org-ul&quot;&gt;
+&lt;li&gt;&lt;a href=&quot;#coderef-auto&quot; class=&quot;coderef&quot; onmouseover=&quot;CodeHighlightOn(this, 'coderef-auto');&quot; onmouseout=&quot;CodeHighlightOff(this, 'coderef-auto');&quot;&gt;auto&lt;/a&gt;自动计算&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#coderef-noauto&quot; class=&quot;coderef&quot; onmouseover=&quot;CodeHighlightOn(this, 'coderef-noauto');&quot; onmouseout=&quot;CodeHighlightOff(this, 'coderef-noauto');&quot;&gt;noauto&lt;/a&gt;不自动计算&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;
+数字序列&lt;br /&gt;
+&lt;/p&gt;
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-elisp&quot;&gt;(print (number-sequence 1 10 3))
+&lt;/pre&gt;
+&lt;/div&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;
+获取列表元素&lt;br /&gt;
+&lt;/p&gt;
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-elisp&quot;&gt;(&lt;span style=&quot;color: #99cc99;&quot;&gt;setq&lt;/span&gt; li (list &lt;span style=&quot;color: #66cccc;&quot;&gt;&quot;a&quot;&lt;/span&gt; &lt;span style=&quot;color: #66cccc;&quot;&gt;&quot;b&quot;&lt;/span&gt; &lt;span style=&quot;color: #66cccc;&quot;&gt;&quot;c&quot;&lt;/span&gt;))
+&lt;span id=&quot;coderef-first&quot; class=&quot;coderef-off&quot;&gt;(princ (car li)) (first)&lt;/span&gt;
+&lt;span id=&quot;coderef-lastList&quot; class=&quot;coderef-off&quot;&gt;(print (last li)) (lastList)&lt;/span&gt;
+&lt;span id=&quot;coderef-last&quot; class=&quot;coderef-off&quot;&gt;(princ (car (last li))) (last)&lt;/span&gt;
+&lt;span id=&quot;coderef-1th&quot; class=&quot;coderef-off&quot;&gt;(print (nth 1 li)) (1th)&lt;/span&gt;
+&lt;/pre&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org3933cbe&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;org3933cbe&quot;&gt;函数&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-org3933cbe&quot;&gt;
+&lt;p&gt;
+当函数可以通过 &lt;code&gt;M-x&lt;/code&gt; 执行时就称函数是 &lt;b&gt;interactive&lt;/b&gt; ,要使函数是可调用的, 需要&lt;br /&gt;
+在函数中的 doc 后面加上 &lt;b&gt;(interactive)&lt;/b&gt; 关键字&lt;br /&gt;
+&lt;/p&gt;
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-elisp&quot;&gt;(&lt;span style=&quot;color: #99cc99;&quot;&gt;defun&lt;/span&gt; &lt;span style=&quot;color: #f99157;&quot;&gt;yay&lt;/span&gt; ()
+     &lt;span style=&quot;color: #cc99cc;&quot;&gt;&quot;Insert yay at the cursor position&quot;&lt;/span&gt;
+     (&lt;span style=&quot;color: #99cc99;&quot;&gt;interactive&lt;/span&gt;)
+     (insert &lt;span style=&quot;color: #66cccc;&quot;&gt;&quot;yay!&quot;&lt;/span&gt;))
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-orgb974bb3&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;orgb974bb3&quot;&gt;evil 编程&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-orgb974bb3&quot;&gt;
+&lt;/div&gt;
+&lt;div id=&quot;outline-container-orgbdc8fda&quot; class=&quot;outline-4&quot;&gt;
+&lt;h4 id=&quot;orgbdc8fda&quot;&gt;选择区域&lt;/h4&gt;
+&lt;div class=&quot;outline-text-4&quot; id=&quot;text-orgbdc8fda&quot;&gt;
+&lt;ul class=&quot;org-ul&quot;&gt;
+&lt;li&gt;evil-visual-end/beginning&lt;br /&gt;
+variable&lt;br /&gt;
+记录 evil visual-mode 下选择的区域开头/结尾的位置&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>org-bable使用基础</title>
+   <link href="http://localhost:4000/emacs/org-mode/2021/03/26/org-bable%E4%BD%BF%E7%94%A8%E5%9F%BA%E7%A1%80/"/>
+   <updated>2021-03-26T00:00:00+08:00</updated>
+   <id>http://localhost:4000/emacs/org-mode/2021/03/26/org-bable使用基础</id>
+   <content type="html">&lt;div id=&quot;outline-container-orgdf88607&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgdf88607&quot;&gt;code blocks 结构&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgdf88607&quot;&gt;
+&lt;p&gt;
+简化形式：&lt;br /&gt;
+&lt;/p&gt;
+&lt;pre class=&quot;example&quot;&gt;
+src_&amp;lt;language&amp;gt;{&amp;lt;body&amp;gt;}  or
+src_&amp;lt;language&amp;gt;[&amp;lt;header arguments&amp;gt;]{&amp;lt;body&amp;gt;}
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-orge71e339&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orge71e339&quot;&gt;基础设置&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orge71e339&quot;&gt;
+&lt;p&gt;
+几个基本参数设置：&lt;br /&gt;
+&lt;/p&gt;
+&lt;ul class=&quot;org-ul&quot;&gt;
+&lt;li&gt;org-edit-src-auto-save-idle-delay&lt;br /&gt;
+设置每隔多长时间自动保存代码块中的内容&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;org-edit-src-turn-on-auto-save&lt;br /&gt;
+将代码块中的内容自动保存到单独的文件中&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;org-src-window-setup&lt;br /&gt;
+设置 &lt;code&gt;c-c ’&lt;/code&gt; 后代码编辑窗口的位置&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;org-src-preserve-indentation&lt;br /&gt;
+设置导出和 tangled 是否保留还是重新设置代码的缩进，如果设置成 nil，导出后缩&lt;br /&gt;
+进会被重新安排，非 nil 设置时会保留原本 codeblocks 中展示的缩进&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-orge009657&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orge009657&quot;&gt;org 导出代码块&lt;/h2&gt;
+&lt;/div&gt;
+&lt;div id=&quot;outline-container-orgbd4f722&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgbd4f722&quot;&gt;采坑记录&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgbd4f722&quot;&gt;
+&lt;p&gt;
+python 如果设置 &lt;code&gt;:session&lt;/code&gt; 就不要使用 &lt;code&gt;return&lt;/code&gt; 返回内容，否则会报错显示不在函&lt;br /&gt;
+数范围内&lt;br /&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&quot;outline-container-org17d1d99&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;org17d1d99&quot;&gt;python 如何便捷输出图片结果？&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-org17d1d99&quot;&gt;
+&lt;p&gt;
+可以进行如下设置:&lt;br /&gt;
+&lt;/p&gt;
+&lt;pre class=&quot;example&quot;&gt;
+#+begin_src: python :results output file :session [运行环境名] -n -r
+print('picture.png')
+#+end_src
+&lt;/pre&gt;
+&lt;ul class=&quot;org-ul&quot;&gt;
+&lt;li&gt;[运行环境名]：类似 python 这样的语言可以将不同的代码块运行在同一共享数据的&lt;br /&gt;
+持久化环境中，这里可以设置该环境的名字。之后的代码块只要设置了相同的名字就&lt;br /&gt;
+可以共享数据&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;
+:results output file&lt;br /&gt;
+设置为 &lt;b&gt;output&lt;/b&gt; 后所有代码块中打印的内容都会在结果中显示出来， &lt;b&gt;file&lt;/b&gt; 则说&lt;br /&gt;
+明所有输出对象是对已存在的文件的引用，自动将输出转化为 &lt;code&gt;[file: 文件名]&lt;/code&gt;&lt;br /&gt;
+的格式，这样插入图片后可以通过 &lt;code&gt;org-display-inline-images&lt;/code&gt; 在代码块下面显示&lt;br /&gt;
+图片，实现类似 jupyter notebook 的效果&lt;br /&gt;
+演示如下：&lt;br /&gt;
+&lt;/p&gt;
+
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-python&quot;&gt;&lt;span style=&quot;color: #99cc99;&quot;&gt;import&lt;/span&gt; numpy &lt;span style=&quot;color: #99cc99;&quot;&gt;as&lt;/span&gt; np
+&lt;span style=&quot;color: #99cc99;&quot;&gt;import&lt;/span&gt; pandas &lt;span style=&quot;color: #99cc99;&quot;&gt;as&lt;/span&gt; pd
+&lt;span style=&quot;color: #99cc99;&quot;&gt;import&lt;/span&gt; matplotlib.pyplot &lt;span style=&quot;color: #99cc99;&quot;&gt;as&lt;/span&gt; plt
+
+&lt;span style=&quot;color: #ffcc66;&quot;&gt;plt.rcParams&lt;/span&gt;[&lt;span style=&quot;color: #66cccc;&quot;&gt;'font.sans-serif'&lt;/span&gt;] = [&lt;span style=&quot;color: #66cccc;&quot;&gt;'Hiragino Sans GB'&lt;/span&gt;] &lt;span style=&quot;color: #999999; font-style: italic;&quot;&gt;# &lt;/span&gt;&lt;span style=&quot;color: #999999; font-style: italic;&quot;&gt;&amp;#29992;&amp;#26469;&amp;#27491;&amp;#24120;&amp;#26174;&amp;#31034;&amp;#20013;&amp;#25991;&amp;#26631;&amp;#31614;&lt;/span&gt;
+&lt;span style=&quot;color: #ffcc66;&quot;&gt;plt.rcParams&lt;/span&gt;[&lt;span style=&quot;color: #66cccc;&quot;&gt;'axes.unicode_minus'&lt;/span&gt;] = &lt;span style=&quot;color: #6699cc;&quot;&gt;False&lt;/span&gt; &lt;span style=&quot;color: #999999; font-style: italic;&quot;&gt;# &lt;/span&gt;&lt;span style=&quot;color: #999999; font-style: italic;&quot;&gt;&amp;#29992;&amp;#26469;&amp;#27491;&amp;#24120;&amp;#26174;&amp;#31034;&amp;#36127;&amp;#21495; &lt;/span&gt;
+
+&lt;span style=&quot;color: #ffcc66;&quot;&gt;ts&lt;/span&gt; = pd.Series(np.random.randn(1000),
+               index=pd.date_range(&lt;span style=&quot;color: #66cccc;&quot;&gt;&quot;1/1/2000&quot;&lt;/span&gt;, periods=1000))
+&lt;span style=&quot;color: #ffcc66;&quot;&gt;ts&lt;/span&gt; = ts.cumsum()
+
+ts.plot()
+plt.savefig(&lt;span style=&quot;color: #66cccc;&quot;&gt;'picture.png'&lt;/span&gt;)
+&lt;span style=&quot;color: #99cc99;&quot;&gt;print&lt;/span&gt;(&lt;span style=&quot;color: #66cccc;&quot;&gt;'picture.png'&lt;/span&gt;)
+&lt;/pre&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>conda&pip环境备份</title>
+   <link href="http://localhost:4000/python/2021/03/24/conda&pip%E7%8E%AF%E5%A2%83%E5%A4%87%E4%BB%BD/"/>
+   <updated>2021-03-24T00:00:00+08:00</updated>
+   <id>http://localhost:4000/python/2021/03/24/conda&pip环境备份</id>
+   <content type="html">&lt;p&gt;
+备份
+&lt;/p&gt;
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-bash&quot;&gt;pip freeze &amp;gt; requirement.txt
+conda list -e &amp;gt; requirement.txt
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;
+环境恢复
+&lt;/p&gt;
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-bash&quot;&gt;pip install -r requirement.txt
+conda install --yes --file requirement.txt
+&lt;/pre&gt;
+&lt;/div&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>使用ssh远程连接树莓派</title>
+   <link href="http://localhost:4000/%E6%A0%91%E8%8E%93%E6%B4%BE/linux/2021/03/15/%E4%BD%BF%E7%94%A8ssh%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E6%A0%91%E8%8E%93%E6%B4%BE/"/>
+   <updated>2021-03-15T00:00:00+08:00</updated>
+   <id>http://localhost:4000/%E6%A0%91%E8%8E%93%E6%B4%BE/linux/2021/03/15/使用ssh远程连接树莓派</id>
+   <content type="html">&lt;div id=&quot;outline-container-org95d9048&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org95d9048&quot;&gt;基于 SSH 连接（命令行操控）&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org95d9048&quot;&gt;
+&lt;ol class=&quot;org-ol&quot;&gt;
+&lt;li&gt;创建一个空白文件，命名为 &lt;b&gt;wpa_supplicant.conf&lt;/b&gt;&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;
+文件中输入一下内容&lt;br /&gt;
+&lt;/p&gt;
+&lt;pre class=&quot;example&quot;&gt;
+country=CN
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+
+network={
+    ssid=&quot;******&quot;
+    psk=&quot;*******&quot;
+}
+&lt;/pre&gt;
+&lt;p&gt;
+主要关注 &lt;b&gt;network&lt;/b&gt; 中的内容，ssid 是 WiFi 名，psk 是 wifi 地址。此外可以设&lt;br /&gt;
+置多个待选连接网络，但需要在 network 中额外增加一行 =priority=1=，里面的数&lt;br /&gt;
+字代表连接的优先级。&lt;br /&gt;
+&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;将设置好的文件放入树莓派储存卡的 boot 盘下即可，然后重新启动，树莓派就会按&lt;br /&gt;
+照事先设定好的网络自动进行连接。&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;将主机和待连接设备接入同一局域网下（同一个路由器）&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;登录路由器控制中心网页，进入 DHCP 界面查看树莓派 IP 地址&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;
+在命令行中输入：&lt;br /&gt;
+&lt;/p&gt;
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-bash&quot;&gt;ssh [userNanme]@[ip address]
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;
+其中树莓派默认用户名是 &lt;code&gt;pi&lt;/code&gt; &lt;br /&gt;
+&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;按照提示输入密码即可成功连接&lt;br /&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-orgc68e06f&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgc68e06f&quot;&gt;通过 VNC Viewer 连接（有图形界面）&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgc68e06f&quot;&gt;
+&lt;ol class=&quot;org-ol&quot;&gt;
+&lt;li&gt;在主机上安装 &lt;b&gt;VNC Viewer&lt;/b&gt;&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;
+ssh 远程连接树莓派，安装 &lt;b&gt;tightvncserver&lt;/b&gt; ，具体命令如下：&lt;br /&gt;
+&lt;/p&gt;
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-bash&quot;&gt;sudo apt-get install tightvncserver
+&lt;/pre&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;在命令行输入 &lt;code&gt;tightvncserver&lt;/code&gt; 激活 vnc，然后会提示设置登录密码，回车后就会&lt;br /&gt;
+成功开启，然后会提供一个端口号。&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;在主机中打开 &lt;b&gt;VNC viewer&lt;/b&gt; ，输入 &lt;code&gt;[ip]:[portName]&lt;/code&gt; ，就可以连接到树莓派。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>博客搭建记录</title>
+   <link href="http://localhost:4000/blog/2021/02/24/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E8%AE%B0%E5%BD%95/"/>
+   <updated>2021-02-24T00:00:00+08:00</updated>
+   <id>http://localhost:4000/blog/2021/02/24/博客搭建记录</id>
+   <content type="html">&lt;div id=&quot;outline-container-orgbffaaf5&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgbffaaf5&quot;&gt;安装 Jekyll&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgbffaaf5&quot;&gt;
+&lt;/div&gt;
+&lt;div id=&quot;outline-container-org4268986&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;org4268986&quot;&gt;安装 Ruby&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-org4268986&quot;&gt;
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-bash&quot;&gt;brew reinstall ruby
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;
+Tips：mac 下的 ruby 已经包含了 RubyGems
+&lt;/p&gt;
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-bash&quot;&gt;&lt;span style=&quot;color: #cc99cc;&quot;&gt;echo&lt;/span&gt; &lt;span style=&quot;color: #66cccc;&quot;&gt;'export PATH=&quot;/usr/local/opt/ruby/bin:$PATH&quot;'&lt;/span&gt; &amp;gt;&amp;gt; ~/.zshrc
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-orgc427511&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;orgc427511&quot;&gt;重新安装 Xcode command Line Tool&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-orgc427511&quot;&gt;
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-bash&quot;&gt;sudo gem update --system
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org47d4967&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;org47d4967&quot;&gt;安装 Jekyll&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-org47d4967&quot;&gt;
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-bash&quot;&gt;sudo gem install jekyll --pre
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;
+速度会比较慢，请耐心等待
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org628dba7&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org628dba7&quot;&gt;导出注意事项&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org628dba7&quot;&gt;
+&lt;/div&gt;
+&lt;div id=&quot;outline-container-orgd33ab67&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;orgd33ab67&quot;&gt;文件头&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-orgd33ab67&quot;&gt;
+&lt;p&gt;
+需要在文件头加上如下内容：
+&lt;/p&gt;
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-org&quot;&gt;&lt;span style=&quot;color: #999999; background-color: #2d2d2d; font-style: italic;&quot;&gt;#+BEGIN_EXPORT html&lt;/span&gt;
+&lt;span style=&quot;color: #cb4b16; background-color: #333333333333;&quot;&gt;---&lt;/span&gt;
+&lt;span style=&quot;color: #cb4b16; background-color: #333333333333;&quot;&gt;layout: default&lt;/span&gt;
+&lt;span style=&quot;color: #cb4b16; background-color: #333333333333;&quot;&gt;title: Benighted on the Ben.&lt;/span&gt;
+&lt;span style=&quot;color: #cb4b16; background-color: #333333333333;&quot;&gt;excerpt: An unplanned bivouac on Ben Nevis.&lt;/span&gt;
+&lt;span style=&quot;color: #cb4b16; background-color: #333333333333;&quot;&gt;---&lt;/span&gt;
+&lt;span style=&quot;color: #999999; background-color: #2d2d2d; font-style: italic;&quot;&gt;#+END_EXPORT&lt;/span&gt;
+&lt;span style=&quot;color: #999999; font-style: italic;&quot;&gt;#+OPTIONS: toc:nil&lt;/span&gt;
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;
+&lt;code&gt;#+BEGIN_EXPORT html&lt;/code&gt; 保证导出成 html 时包含的内容可以被原封不动的转换到 html 文件中，
+&lt;code&gt;---&lt;/code&gt; 中的内容与 jekyll 页面设置有关, &lt;code&gt;#+OPTIONS: toc:nil&lt;/code&gt; 设置生成的html文件不包含目录,防止
+覆盖jekyll设置.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org4be5639&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;org4be5639&quot;&gt;自动化操作&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-org4be5639&quot;&gt;
+&lt;p&gt;
+emacs 非常贴心的提供了两个 hook，帮助在导出后完成后自动进行下一步处理：
+&lt;/p&gt;
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-elisp&quot;&gt;org-export-html-final-hook      &lt;span style=&quot;color: #999999; font-style: italic;&quot;&gt;;;&lt;/span&gt;&lt;span style=&quot;color: #999999; font-style: italic;&quot;&gt;always&lt;/span&gt;
+org-publish-after-export-hook   &lt;span style=&quot;color: #999999; font-style: italic;&quot;&gt;;;&lt;/span&gt;&lt;span style=&quot;color: #999999; font-style: italic;&quot;&gt;when going through org-publish&lt;/span&gt;
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>使用org-roam&org-roam-server进行知识管理</title>
+   <link href="http://localhost:4000/org-mode/emacs/2021/02/20/%E4%BD%BF%E7%94%A8org-roam%E8%BF%9B%E8%A1%8C%E7%9F%A5%E8%AF%86%E7%AE%A1%E7%90%86/"/>
+   <updated>2021-02-20T00:00:00+08:00</updated>
+   <id>http://localhost:4000/org-mode/emacs/2021/02/20/使用org-roam进行知识管理</id>
+   <content type="html">&lt;div id=&quot;outline-container-org66bf3a1&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org66bf3a1&quot;&gt;什么是 org-roam&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org66bf3a1&quot;&gt;
+&lt;p&gt;
+org-roam 采用了 &lt;a href=&quot;roam/20210201115837-zettelkasten.html&quot;&gt;Zettelkasten&lt;/a&gt; 理念，大致分为三步来管理自己的知识：&lt;br /&gt;
+&lt;/p&gt;
+&lt;ol class=&quot;org-ol&quot;&gt;
+&lt;li&gt;收集信息&lt;br /&gt;
+将信息录入 org-roam。&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;建立连接&lt;br /&gt;
+对新的信息进行进一步筛选、整理、打上标签，形成资料，并与已有的知识体系进行&lt;br /&gt;
+连接。&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;加强连接&lt;br /&gt;
+定期对建立的知识体系进行回顾，剔除无用的节点，加深印象，内化为自己的知识。&lt;br /&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;
+可以进行类似流程的软件有很多，但目前以国外软件为主，国内使用速度感人，且价格&lt;br /&gt;
+不菲，正好 emacs 有 org-roam 这款软件可以完成类似的工作，而且最近刚发布了&lt;br /&gt;
+org-roam-server 这样的一款可视化神器，使得 org-roam 的使用体验更上一层楼。&lt;br /&gt;
+遂想进行一番尝试（折腾）。本文是对我在配置 org-roam 过程中踩过的一些坑的记录，&lt;br /&gt;
+也是对一段时间来使用 org-roam 的心得体会。&lt;br /&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-orgb2d4937&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgb2d4937&quot;&gt;环境&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgb2d4937&quot;&gt;
+&lt;p&gt;
+系统：macOS Catalina 10.15.7&lt;br /&gt;
+emacs： Spacemacs v.0.300.0&lt;br /&gt;
+org-roam: 20210128&lt;br /&gt;
+org-roam-server: 20210201&lt;br /&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org3a4d10d&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org3a4d10d&quot;&gt;org-roam&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org3a4d10d&quot;&gt;
+&lt;/div&gt;
+&lt;div id=&quot;outline-container-orgdd3e482&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;orgdd3e482&quot;&gt;org-roam 简单使用流程&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-orgdd3e482&quot;&gt;
+&lt;p&gt;
+org-roam 目前来说是以文件为最小单位来存储每条信息。文件之间可以互相建立引用来&lt;br /&gt;
+快速跳转。以神经网络来进行类比，org-roam 下每条信息就像是神经网络上的一个神经元，&lt;br /&gt;
+而相互的之间建立引用就是在神经元之间建立联系，每一次复习就是加强神经元之间的联系。&lt;br /&gt;
+org-roam 提供了几个函数来实现上述的创建、联系、跳转，org-roam-server 则是提供了对&lt;br /&gt;
+整个网络的可视化。下面挑几个常用的函数来简单介绍。&lt;br /&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&quot;outline-container-orgbdafc94&quot; class=&quot;outline-4&quot;&gt;
+&lt;h4 id=&quot;orgbdafc94&quot;&gt;org-roam find file&lt;/h4&gt;
+&lt;div class=&quot;outline-text-4&quot; id=&quot;text-orgbdafc94&quot;&gt;
+&lt;p&gt;
+查找对应的信息标题，如果不存在则会调用 org-roam-capture 进行创建，具体原理同&lt;br /&gt;
+org-mode-cpature，spacemacs 对应快捷键 &lt;code&gt;SPC m r f&lt;/code&gt; (mode -&amp;gt; roam -&amp;gt; find-file,&lt;br /&gt;
+类似快捷键含义下文类似)，效果如下：&lt;br /&gt;
+&lt;/p&gt;
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;./img/2021-02-10_16-13-45_2021-02-10 at 16.03.54 - Turquoise Rhinoceros.gif&quot; alt=&quot;2021-02-10_16-13-45_2021-02-10 at 16.03.54 - Turquoise Rhinoceros.gif&quot; /&gt;&lt;br /&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org3458155&quot; class=&quot;outline-4&quot;&gt;
+&lt;h4 id=&quot;org3458155&quot;&gt;org-roam insert&lt;/h4&gt;
+&lt;div class=&quot;outline-text-4&quot; id=&quot;text-org3458155&quot;&gt;
+&lt;p&gt;
+选中关键词进行连接，如果该关键词之前已经通过 org-roam 进行创建，则可直接进行&lt;br /&gt;
+连接；如果未被创建，则会调用 org-roam-capture 进行创建，快捷键为 =SPC m r i=。效果如下：&lt;br /&gt;
+&lt;/p&gt;
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;./img/2021-02-10_16-40-25_2021-02-10 at 16.26.54 - Amber Amphibian.gif&quot; alt=&quot;2021-02-10_16-40-25_2021-02-10 at 16.26.54 - Amber Amphibian.gif&quot; /&gt;&lt;br /&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org1b39ac3&quot; class=&quot;outline-4&quot;&gt;
+&lt;h4 id=&quot;org1b39ac3&quot;&gt;org-roam backlinks&lt;/h4&gt;
+&lt;div class=&quot;outline-text-4&quot; id=&quot;text-org1b39ac3&quot;&gt;
+&lt;p&gt;
+如果想要跳转回之前的页面或者想要知道哪些页面引用了当前页面？可以使用 backlinks&lt;br /&gt;
+实现。spacemacs 快捷键为 &lt;code&gt;SPC m r l&lt;/code&gt;&lt;br /&gt;
+&lt;/p&gt;
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;./img/2021-02-19_11-25-15_2021-02-19 at 10.57.27 - Tomato Yak.gif&quot; alt=&quot;2021-02-19_11-25-15_2021-02-19 at 10.57.27 - Tomato Yak.gif&quot; /&gt;&lt;br /&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-orgdba36f1&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;orgdba36f1&quot;&gt;org-roam capture 配置&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-orgdba36f1&quot;&gt;
+&lt;p&gt;
+org-roam-capture-template 是在创建新的词条时可供选择的模版。通过自定义预制不&lt;br /&gt;
+同的模版，可以满足不同的词条记录需求。具体的设置与 org-capture-template 大体&lt;br /&gt;
+上相类似，如下所示：&lt;br /&gt;
+&lt;/p&gt;
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-lisp&quot;&gt;&lt;span style=&quot;color: #cccccc;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #66cccc;&quot;&gt;&quot;i&quot;&lt;/span&gt; &lt;span style=&quot;color: #66cccc;&quot;&gt;&quot;idea&quot;&lt;/span&gt; plain &lt;span style=&quot;color: #66cccc;&quot;&gt;(&lt;/span&gt;function org-roam-capture--get-point&lt;span style=&quot;color: #66cccc;&quot;&gt;)&lt;/span&gt;
+           &lt;span style=&quot;color: #66cccc;&quot;&gt;&quot;%?&quot;&lt;/span&gt;
+           &lt;span style=&quot;color: #cc99cc;&quot;&gt;:file-name&lt;/span&gt; &lt;span style=&quot;color: #66cccc;&quot;&gt;&quot;%&amp;lt;%Y%m%d%H%M%S&amp;gt;-${slug}&quot;&lt;/span&gt;
+           &lt;span style=&quot;color: #cc99cc;&quot;&gt;:head&lt;/span&gt; &lt;span style=&quot;color: #66cccc;&quot;&gt;&quot;#+title: ${title}\n#+roam_alias: \n#+roam_tags: idea\n\n- &amp;#26102;&amp;#38388;: %U\n\n&quot;&lt;/span&gt;
+           &lt;span style=&quot;color: #cc99cc;&quot;&gt;:unnarrowed&lt;/span&gt; t
+           &lt;span style=&quot;color: #cc99cc;&quot;&gt;:empty-lines&lt;/span&gt; 1&lt;span style=&quot;color: #cccccc;&quot;&gt;)&lt;/span&gt;
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;ul class=&quot;org-ul&quot;&gt;
+&lt;li&gt;&lt;b&gt;&quot;i&quot;&lt;/b&gt; 表示该模版的快捷键&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;&quot;idea&quot;&lt;/b&gt; 表示该模版显示的名字&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;plain&lt;/b&gt; 表示模版的类型，目前 org-roam-capture-template 只支持 plain 类型&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;(function org-roam-capture&amp;#x2013;get-point)&lt;/b&gt; 固定不能改&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;&quot;%?&quot;&lt;/b&gt; 表示指针位置&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;:file-name&lt;/b&gt; 创建的.org 文件名，示例中表示以时间-词条名的格式创建文件&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;:head&lt;/b&gt; 文件头格式。其中 &lt;b&gt;#+roam_alias:&lt;/b&gt; 表示词条的别名，词条名和别名都可&lt;br /&gt;
+以用来搜索。 &lt;b&gt;#+roam_tags:&lt;/b&gt; 为词条标签。 &lt;b&gt;%U&lt;/b&gt; 为创建时间。&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;:unnarrowed t&lt;/b&gt; 在往已存在笔记中添加新的内容时可以同时看到以前的内容。&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;:empty-lines:&lt;/b&gt; 新增笔记时在笔记之间加入一个空行。&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org9b54642&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org9b54642&quot;&gt;org-roam-server&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org9b54642&quot;&gt;
+&lt;/div&gt;
+&lt;div id=&quot;outline-container-org6117471&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;org6117471&quot;&gt;在 spacemacs 中使用 layer 配置 org-roam-server&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-org6117471&quot;&gt;
+&lt;p&gt;
+首先需要在配置文件的 dotspacemacs/layers 下指定个人 layer 的路径:&lt;br /&gt;
+&lt;/p&gt;
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-lisp&quot;&gt;dotspacemacs-configuration-layer-path '&lt;span style=&quot;color: #cccccc;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #66cccc;&quot;&gt;&quot;~/.spacemacs.d/&quot;&lt;/span&gt;&lt;span style=&quot;color: #cccccc;&quot;&gt;)&lt;/span&gt;
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;
+然后输入 &lt;code&gt;SPC SPC&lt;/code&gt; ，输入 configuration-layer/create-layer 再回车，选择路径，&lt;br /&gt;
+确认生成 Readme 文件，就可以创建 layer。&lt;br /&gt;
+刚创建的 layer 只有 &lt;b&gt;READMA.org&lt;/b&gt; &lt;b&gt;packages.el&lt;/b&gt; 两个文件。&lt;br /&gt;
+&lt;b&gt;packages.el&lt;/b&gt; 文件下大致可以划分为两个部分，packages 列表和 packages 配置。&lt;br /&gt;
+在 &lt;b&gt;{FILENAME}-packages&lt;/b&gt; 函数下主要列出该 layer 需要用到的 packages，这里&lt;br /&gt;
+设置如下：&lt;br /&gt;
+&lt;/p&gt;
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-lisp&quot;&gt;&lt;span style=&quot;color: #cccccc;&quot;&gt;(&lt;/span&gt;defconst qrq-packages
+  '&lt;span style=&quot;color: #66cccc;&quot;&gt;(&lt;/span&gt;
+    org-roam-server
+    &lt;span style=&quot;color: #ffcc66;&quot;&gt;(&lt;/span&gt;org-roam-server &lt;span style=&quot;color: #cc99cc;&quot;&gt;:location&lt;/span&gt; elpa&lt;span style=&quot;color: #ffcc66;&quot;&gt;)&lt;/span&gt;
+ &lt;span style=&quot;color: #66cccc;&quot;&gt;)&lt;/span&gt;
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;
+&lt;b&gt;org-roam-sercer&lt;/b&gt; 是 package 的名字，*:location elpa* 指定包的来源，elap 表示&lt;br /&gt;
+使用 emacs 的包管理工具获取，也可以设置为 local 表示使用本地的包。&lt;br /&gt;
+除了需要在列表中声明用到的包，还需要对每个包单独进行配置。我的配置如下：&lt;br /&gt;
+&lt;/p&gt;
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;pre class=&quot;src src-lisp&quot;&gt;&lt;span style=&quot;color: #cccccc;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #99cc99;&quot;&gt;defun&lt;/span&gt; &lt;span style=&quot;color: #f99157;&quot;&gt;qrq/init-org-roam-server&lt;/span&gt; &lt;span style=&quot;color: #66cccc;&quot;&gt;()&lt;/span&gt;
+  &lt;span style=&quot;color: #66cccc;&quot;&gt;(&lt;/span&gt;use-package org-roam-server
+    &lt;span style=&quot;color: #cc99cc;&quot;&gt;:ensure&lt;/span&gt; t
+    &lt;span style=&quot;color: #cc99cc;&quot;&gt;:config&lt;/span&gt;
+    &lt;span style=&quot;color: #ffcc66;&quot;&gt;(&lt;/span&gt;setq org-roam-server-host &lt;span style=&quot;color: #66cccc;&quot;&gt;&quot;127.0.0.1&quot;&lt;/span&gt;
+          org-roam-server-port 8080
+          org-roam-server-authenticate nil
+          org-roam-server-export-inline-images t
+          org-roam-server-serve-files nil
+          org-roam-server-served-file-extensions '&lt;span style=&quot;color: #99cc99;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #66cccc;&quot;&gt;&quot;pdf&quot;&lt;/span&gt; &lt;span style=&quot;color: #66cccc;&quot;&gt;&quot;mp4&quot;&lt;/span&gt; &lt;span style=&quot;color: #66cccc;&quot;&gt;&quot;ogv&quot;&lt;/span&gt;&lt;span style=&quot;color: #99cc99;&quot;&gt;)&lt;/span&gt;
+          org-roam-server-network-poll t
+          org-roam-server-network-arrows nil
+          org-roam-server-network-label-truncate t
+          org-roam-server-network-label-truncate-length 60
+          org-roam-server-network-label-wrap-length 20&lt;span style=&quot;color: #ffcc66;&quot;&gt;)&lt;/span&gt;
+    &lt;span style=&quot;color: #ffcc66;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #99cc99;&quot;&gt;require&lt;/span&gt; '&lt;span style=&quot;color: #6699cc;&quot;&gt;org-roam-protocol&lt;/span&gt;&lt;span style=&quot;color: #ffcc66;&quot;&gt;)&lt;/span&gt;&lt;span style=&quot;color: #66cccc;&quot;&gt;)&lt;/span&gt;
+  &lt;span style=&quot;color: #66cccc;&quot;&gt;(&lt;/span&gt;add-hook 'after-init-hook 'org-roam-mode&lt;span style=&quot;color: #66cccc;&quot;&gt;)&lt;/span&gt;
+  &lt;span style=&quot;color: #cccccc;&quot;&gt;)&lt;/span&gt;
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;ul class=&quot;org-ul&quot;&gt;
+&lt;li&gt;&lt;b&gt;qrq&lt;/b&gt; 是 layer 的名字&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;init-org-roam-server&lt;/b&gt; 是包的初始化函数，如过这个包没有被其它的 layer 使用，&lt;br /&gt;
+则函数的格式为 &lt;b&gt;init-{PACKAGENAME}&lt;/b&gt; ，如果包需要被其它的 layer 调用才激活，&lt;br /&gt;
+函数的格式需要改为 &lt;b&gt;pre-init-{PACKAGENAME}&lt;/b&gt; 或 &lt;b&gt;post-init-{PACKAGENAME}&lt;/b&gt; 。&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;(config **&lt;/b&gt;)* 为包的配置，这里按照 org-roam-server的&lt;a href=&quot;https://github.com/org-roam/org-roam-server&quot;&gt;github&lt;/a&gt;页面说明进行设置。&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+在设置完成后，将自己的 layer 名字加入配置文件中 &lt;b&gt;dotspacemacs/layer&lt;/b&gt; 下的&lt;br /&gt;
+&lt;b&gt;dotspacemacs-configuration-layers&lt;/b&gt; 中，输入 &lt;code&gt;SPC f e R&lt;/code&gt; 刷新配置文件。然后输入&lt;br /&gt;
+&lt;code&gt;SPC SPC&lt;/code&gt; 启动 &lt;b&gt;org-roam-server-mode&lt;/b&gt; 。&lt;br /&gt;
+在浏览器输入 &lt;a href=&quot;http://127.0.0.1:8080&quot;&gt;http://127.0.0.1:8080&lt;/a&gt; 即可进入 org-roam 可视化界面。&lt;br /&gt;
+&lt;/p&gt;
+
+
+&lt;div class=&quot;figure&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;./img/2021-02-19_12-54-24_screenshot.png&quot; alt=&quot;2021-02-19_12-54-24_screenshot.png&quot; /&gt;&lt;br /&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-org34fd725&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;org34fd725&quot;&gt;org-roam Protocol 配置&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-org34fd725&quot;&gt;
+&lt;p&gt;
+在完成上文的配置工作后，已经可以在网页中浏览创建的词条以及词条之间的联系。&lt;br /&gt;
+但当点击节点时仍然无法跳转到对应的词条。下面需要配置 &lt;a href=&quot;https://www.orgroam.com/manual.html#Installation-_00281_0029&quot;&gt;org-roam Protocol&lt;/a&gt; 来&lt;br /&gt;
+实现跳转功能。&lt;br /&gt;
+这里 mac 系统为例，其它系统请参考官方&lt;a href=&quot;https://www.orgroam.com/manual.html#Installation-_00281_0029&quot;&gt;文档&lt;/a&gt;。&lt;br /&gt;
+&lt;/p&gt;
+&lt;ul class=&quot;org-ul&quot;&gt;
+&lt;li&gt;首先打开脚本编辑器（MAC 菜单中可以找到，为系统自带）&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;
+将下面的内容复制到脚本中：&lt;br /&gt;
+&lt;/p&gt;
+&lt;pre class=&quot;example&quot;&gt;
+on open location this_URL
+    set EC to &quot;/usr/local/bin/emacsclient --no-wait &quot;
+    set filePath to quoted form of this_URL
+    do shell script EC &amp;amp; filePath
+    tell application &quot;Emacs&quot; to activate
+end open location
+&lt;/pre&gt;
+&lt;p&gt;
+注意将“”之间的地址改为自己的 emacs 客户端地址。（可以在 finder 中输入&lt;br /&gt;
+emacsclient 进行查找）&lt;br /&gt;
+&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;将脚本另存为 &lt;b&gt;/Applications/OrgProtocolClient.app&lt;/b&gt; 文件类型选择“应用”，&lt;br /&gt;
+而不是“脚本”。&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;编辑 &lt;b&gt;/Applications/OrgProtocolClient.app/Contents/Info.plist&lt;/b&gt; ，不方便的&lt;br /&gt;
+话可以在控制台中使用 vim 进行修改。&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;
+在最后一个 &lt;b&gt;&amp;lt;/dict&amp;gt;&lt;/b&gt; 前加入一下内容：&lt;br /&gt;
+&lt;/p&gt;
+&lt;pre class=&quot;example&quot;&gt;
+&amp;lt;key&amp;gt;CFBundleURLTypes&amp;lt;/key&amp;gt;
+&amp;lt;array&amp;gt;
+  &amp;lt;dict&amp;gt;
+    &amp;lt;key&amp;gt;CFBundleURLName&amp;lt;/key&amp;gt;
+    &amp;lt;string&amp;gt;org-protocol handler&amp;lt;/string&amp;gt;
+    &amp;lt;key&amp;gt;CFBundleURLSchemes&amp;lt;/key&amp;gt;
+    &amp;lt;array&amp;gt;
+      &amp;lt;string&amp;gt;org-protocol&amp;lt;/string&amp;gt;
+    &amp;lt;/array&amp;gt;
+  &amp;lt;/dict&amp;gt;
+&amp;lt;/array&amp;gt;
+&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;保存文件，运行一次 OrgProtocolClient.app 进行注册。&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+完成上述步骤后，下一次在 roam 视图中选择相应的节点时就会自动调用 OrgProtocolClient.app&lt;br /&gt;
+程序作为与 emacs 的接口，然后在 emacs 中自动跳转到相应的词条。&lt;br /&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</content>
+ </entry>
+ 
+
+</feed>

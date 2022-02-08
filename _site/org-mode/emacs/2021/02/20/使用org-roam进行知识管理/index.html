@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      使用org-roam&org-roam-server进行知识管理 &middot; QRQ's Blog
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/naringu.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/form.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700%7CPT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+  <link rel="alternate" type="application/rss+xml" title="Mozilla RSS" href="feed.category.xml">
+  </head>
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', '', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+<body class="theme-6dd">
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+      <!-- <img width="125" height="125" alt="A photo of ariestiyansyah" src="/images/head.jpg"> -->
+      <img width="125" height="125" alt="A photo of thinker" src="/images/head.jpg">
+    <p>自动化 | 模式识别 | 图像处理</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+    
+      
+        
+          <a class="sidebar-nav-item" href="/categories/">Category Index</a>
+        
+      
+    
+      
+    
+      
+        
+      
+    
+
+    <a class="sidebar-nav-item" href="http://github.com">GitHub project</a>
+    <span class="sidebar-nav-item">Version 2.0</span>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2022. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <h3 class="masthead-title">
+            <a href="/" title="Home">QRQ's Blog</a>
+            <small>生命不息，折腾不止</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="post">
+  <h1 class="post-title">使用org-roam&org-roam-server进行知识管理</h1>
+  <span class="post-date">20 Feb 2021</span>
+  <div id="outline-container-org66bf3a1" class="outline-2">
+<h2 id="org66bf3a1">什么是 org-roam</h2>
+<div class="outline-text-2" id="text-org66bf3a1">
+<p>
+org-roam 采用了 <a href="roam/20210201115837-zettelkasten.html">Zettelkasten</a> 理念，大致分为三步来管理自己的知识：<br />
+</p>
+<ol class="org-ol">
+<li>收集信息<br />
+将信息录入 org-roam。<br /></li>
+<li>建立连接<br />
+对新的信息进行进一步筛选、整理、打上标签，形成资料，并与已有的知识体系进行<br />
+连接。<br /></li>
+<li>加强连接<br />
+定期对建立的知识体系进行回顾，剔除无用的节点，加深印象，内化为自己的知识。<br /></li>
+</ol>
+
+<p>
+可以进行类似流程的软件有很多，但目前以国外软件为主，国内使用速度感人，且价格<br />
+不菲，正好 emacs 有 org-roam 这款软件可以完成类似的工作，而且最近刚发布了<br />
+org-roam-server 这样的一款可视化神器，使得 org-roam 的使用体验更上一层楼。<br />
+遂想进行一番尝试（折腾）。本文是对我在配置 org-roam 过程中踩过的一些坑的记录，<br />
+也是对一段时间来使用 org-roam 的心得体会。<br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb2d4937" class="outline-2">
+<h2 id="orgb2d4937">环境</h2>
+<div class="outline-text-2" id="text-orgb2d4937">
+<p>
+系统：macOS Catalina 10.15.7<br />
+emacs： Spacemacs v.0.300.0<br />
+org-roam: 20210128<br />
+org-roam-server: 20210201<br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-org3a4d10d" class="outline-2">
+<h2 id="org3a4d10d">org-roam</h2>
+<div class="outline-text-2" id="text-org3a4d10d">
+</div>
+<div id="outline-container-orgdd3e482" class="outline-3">
+<h3 id="orgdd3e482">org-roam 简单使用流程</h3>
+<div class="outline-text-3" id="text-orgdd3e482">
+<p>
+org-roam 目前来说是以文件为最小单位来存储每条信息。文件之间可以互相建立引用来<br />
+快速跳转。以神经网络来进行类比，org-roam 下每条信息就像是神经网络上的一个神经元，<br />
+而相互的之间建立引用就是在神经元之间建立联系，每一次复习就是加强神经元之间的联系。<br />
+org-roam 提供了几个函数来实现上述的创建、联系、跳转，org-roam-server 则是提供了对<br />
+整个网络的可视化。下面挑几个常用的函数来简单介绍。<br />
+</p>
+</div>
+<div id="outline-container-orgbdafc94" class="outline-4">
+<h4 id="orgbdafc94">org-roam find file</h4>
+<div class="outline-text-4" id="text-orgbdafc94">
+<p>
+查找对应的信息标题，如果不存在则会调用 org-roam-capture 进行创建，具体原理同<br />
+org-mode-cpature，spacemacs 对应快捷键 <code>SPC m r f</code> (mode -&gt; roam -&gt; find-file,<br />
+类似快捷键含义下文类似)，效果如下：<br />
+</p>
+
+<div class="figure">
+<p><img src="./img/2021-02-10_16-13-45_2021-02-10 at 16.03.54 - Turquoise Rhinoceros.gif" alt="2021-02-10_16-13-45_2021-02-10 at 16.03.54 - Turquoise Rhinoceros.gif" /><br />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3458155" class="outline-4">
+<h4 id="org3458155">org-roam insert</h4>
+<div class="outline-text-4" id="text-org3458155">
+<p>
+选中关键词进行连接，如果该关键词之前已经通过 org-roam 进行创建，则可直接进行<br />
+连接；如果未被创建，则会调用 org-roam-capture 进行创建，快捷键为 =SPC m r i=。效果如下：<br />
+</p>
+
+<div class="figure">
+<p><img src="./img/2021-02-10_16-40-25_2021-02-10 at 16.26.54 - Amber Amphibian.gif" alt="2021-02-10_16-40-25_2021-02-10 at 16.26.54 - Amber Amphibian.gif" /><br />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1b39ac3" class="outline-4">
+<h4 id="org1b39ac3">org-roam backlinks</h4>
+<div class="outline-text-4" id="text-org1b39ac3">
+<p>
+如果想要跳转回之前的页面或者想要知道哪些页面引用了当前页面？可以使用 backlinks<br />
+实现。spacemacs 快捷键为 <code>SPC m r l</code><br />
+</p>
+
+<div class="figure">
+<p><img src="./img/2021-02-19_11-25-15_2021-02-19 at 10.57.27 - Tomato Yak.gif" alt="2021-02-19_11-25-15_2021-02-19 at 10.57.27 - Tomato Yak.gif" /><br />
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgdba36f1" class="outline-3">
+<h3 id="orgdba36f1">org-roam capture 配置</h3>
+<div class="outline-text-3" id="text-orgdba36f1">
+<p>
+org-roam-capture-template 是在创建新的词条时可供选择的模版。通过自定义预制不<br />
+同的模版，可以满足不同的词条记录需求。具体的设置与 org-capture-template 大体<br />
+上相类似，如下所示：<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp"><span style="color: #cccccc;">(</span><span style="color: #66cccc;">"i"</span> <span style="color: #66cccc;">"idea"</span> plain <span style="color: #66cccc;">(</span>function org-roam-capture--get-point<span style="color: #66cccc;">)</span>
+           <span style="color: #66cccc;">"%?"</span>
+           <span style="color: #cc99cc;">:file-name</span> <span style="color: #66cccc;">"%&lt;%Y%m%d%H%M%S&gt;-${slug}"</span>
+           <span style="color: #cc99cc;">:head</span> <span style="color: #66cccc;">"#+title: ${title}\n#+roam_alias: \n#+roam_tags: idea\n\n- &#26102;&#38388;: %U\n\n"</span>
+           <span style="color: #cc99cc;">:unnarrowed</span> t
+           <span style="color: #cc99cc;">:empty-lines</span> 1<span style="color: #cccccc;">)</span>
+</pre>
+</div>
+<ul class="org-ul">
+<li><b>"i"</b> 表示该模版的快捷键<br /></li>
+<li><b>"idea"</b> 表示该模版显示的名字<br /></li>
+<li><b>plain</b> 表示模版的类型，目前 org-roam-capture-template 只支持 plain 类型<br /></li>
+<li><b>(function org-roam-capture&#x2013;get-point)</b> 固定不能改<br /></li>
+<li><b>"%?"</b> 表示指针位置<br /></li>
+<li><b>:file-name</b> 创建的.org 文件名，示例中表示以时间-词条名的格式创建文件<br /></li>
+<li><b>:head</b> 文件头格式。其中 <b>#+roam_alias:</b> 表示词条的别名，词条名和别名都可<br />
+以用来搜索。 <b>#+roam_tags:</b> 为词条标签。 <b>%U</b> 为创建时间。<br /></li>
+<li><b>:unnarrowed t</b> 在往已存在笔记中添加新的内容时可以同时看到以前的内容。<br /></li>
+<li><b>:empty-lines:</b> 新增笔记时在笔记之间加入一个空行。<br /></li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9b54642" class="outline-2">
+<h2 id="org9b54642">org-roam-server</h2>
+<div class="outline-text-2" id="text-org9b54642">
+</div>
+<div id="outline-container-org6117471" class="outline-3">
+<h3 id="org6117471">在 spacemacs 中使用 layer 配置 org-roam-server</h3>
+<div class="outline-text-3" id="text-org6117471">
+<p>
+首先需要在配置文件的 dotspacemacs/layers 下指定个人 layer 的路径:<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">dotspacemacs-configuration-layer-path '<span style="color: #cccccc;">(</span><span style="color: #66cccc;">"~/.spacemacs.d/"</span><span style="color: #cccccc;">)</span>
+</pre>
+</div>
+<p>
+然后输入 <code>SPC SPC</code> ，输入 configuration-layer/create-layer 再回车，选择路径，<br />
+确认生成 Readme 文件，就可以创建 layer。<br />
+刚创建的 layer 只有 <b>READMA.org</b> <b>packages.el</b> 两个文件。<br />
+<b>packages.el</b> 文件下大致可以划分为两个部分，packages 列表和 packages 配置。<br />
+在 <b>{FILENAME}-packages</b> 函数下主要列出该 layer 需要用到的 packages，这里<br />
+设置如下：<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp"><span style="color: #cccccc;">(</span>defconst qrq-packages
+  '<span style="color: #66cccc;">(</span>
+    org-roam-server
+    <span style="color: #ffcc66;">(</span>org-roam-server <span style="color: #cc99cc;">:location</span> elpa<span style="color: #ffcc66;">)</span>
+ <span style="color: #66cccc;">)</span>
+</pre>
+</div>
+<p>
+<b>org-roam-sercer</b> 是 package 的名字，*:location elpa* 指定包的来源，elap 表示<br />
+使用 emacs 的包管理工具获取，也可以设置为 local 表示使用本地的包。<br />
+除了需要在列表中声明用到的包，还需要对每个包单独进行配置。我的配置如下：<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp"><span style="color: #cccccc;">(</span><span style="color: #99cc99;">defun</span> <span style="color: #f99157;">qrq/init-org-roam-server</span> <span style="color: #66cccc;">()</span>
+  <span style="color: #66cccc;">(</span>use-package org-roam-server
+    <span style="color: #cc99cc;">:ensure</span> t
+    <span style="color: #cc99cc;">:config</span>
+    <span style="color: #ffcc66;">(</span>setq org-roam-server-host <span style="color: #66cccc;">"127.0.0.1"</span>
+          org-roam-server-port 8080
+          org-roam-server-authenticate nil
+          org-roam-server-export-inline-images t
+          org-roam-server-serve-files nil
+          org-roam-server-served-file-extensions '<span style="color: #99cc99;">(</span><span style="color: #66cccc;">"pdf"</span> <span style="color: #66cccc;">"mp4"</span> <span style="color: #66cccc;">"ogv"</span><span style="color: #99cc99;">)</span>
+          org-roam-server-network-poll t
+          org-roam-server-network-arrows nil
+          org-roam-server-network-label-truncate t
+          org-roam-server-network-label-truncate-length 60
+          org-roam-server-network-label-wrap-length 20<span style="color: #ffcc66;">)</span>
+    <span style="color: #ffcc66;">(</span><span style="color: #99cc99;">require</span> '<span style="color: #6699cc;">org-roam-protocol</span><span style="color: #ffcc66;">)</span><span style="color: #66cccc;">)</span>
+  <span style="color: #66cccc;">(</span>add-hook 'after-init-hook 'org-roam-mode<span style="color: #66cccc;">)</span>
+  <span style="color: #cccccc;">)</span>
+</pre>
+</div>
+<ul class="org-ul">
+<li><b>qrq</b> 是 layer 的名字<br /></li>
+<li><b>init-org-roam-server</b> 是包的初始化函数，如过这个包没有被其它的 layer 使用，<br />
+则函数的格式为 <b>init-{PACKAGENAME}</b> ，如果包需要被其它的 layer 调用才激活，<br />
+函数的格式需要改为 <b>pre-init-{PACKAGENAME}</b> 或 <b>post-init-{PACKAGENAME}</b> 。<br /></li>
+<li><b>(config **</b>)* 为包的配置，这里按照 org-roam-server的<a href="https://github.com/org-roam/org-roam-server">github</a>页面说明进行设置。<br /></li>
+</ul>
+
+<p>
+在设置完成后，将自己的 layer 名字加入配置文件中 <b>dotspacemacs/layer</b> 下的<br />
+<b>dotspacemacs-configuration-layers</b> 中，输入 <code>SPC f e R</code> 刷新配置文件。然后输入<br />
+<code>SPC SPC</code> 启动 <b>org-roam-server-mode</b> 。<br />
+在浏览器输入 <a href="http://127.0.0.1:8080">http://127.0.0.1:8080</a> 即可进入 org-roam 可视化界面。<br />
+</p>
+
+
+<div class="figure">
+<p><img src="./img/2021-02-19_12-54-24_screenshot.png" alt="2021-02-19_12-54-24_screenshot.png" /><br />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org34fd725" class="outline-3">
+<h3 id="org34fd725">org-roam Protocol 配置</h3>
+<div class="outline-text-3" id="text-org34fd725">
+<p>
+在完成上文的配置工作后，已经可以在网页中浏览创建的词条以及词条之间的联系。<br />
+但当点击节点时仍然无法跳转到对应的词条。下面需要配置 <a href="https://www.orgroam.com/manual.html#Installation-_00281_0029">org-roam Protocol</a> 来<br />
+实现跳转功能。<br />
+这里 mac 系统为例，其它系统请参考官方<a href="https://www.orgroam.com/manual.html#Installation-_00281_0029">文档</a>。<br />
+</p>
+<ul class="org-ul">
+<li>首先打开脚本编辑器（MAC 菜单中可以找到，为系统自带）<br /></li>
+<li><p>
+将下面的内容复制到脚本中：<br />
+</p>
+<pre class="example">
+on open location this_URL
+    set EC to "/usr/local/bin/emacsclient --no-wait "
+    set filePath to quoted form of this_URL
+    do shell script EC &amp; filePath
+    tell application "Emacs" to activate
+end open location
+</pre>
+<p>
+注意将“”之间的地址改为自己的 emacs 客户端地址。（可以在 finder 中输入<br />
+emacsclient 进行查找）<br />
+</p></li>
+<li>将脚本另存为 <b>/Applications/OrgProtocolClient.app</b> 文件类型选择“应用”，<br />
+而不是“脚本”。<br /></li>
+<li>编辑 <b>/Applications/OrgProtocolClient.app/Contents/Info.plist</b> ，不方便的<br />
+话可以在控制台中使用 vim 进行修改。<br /></li>
+<li><p>
+在最后一个 <b>&lt;/dict&gt;</b> 前加入一下内容：<br />
+</p>
+<pre class="example">
+&lt;key&gt;CFBundleURLTypes&lt;/key&gt;
+&lt;array&gt;
+  &lt;dict&gt;
+    &lt;key&gt;CFBundleURLName&lt;/key&gt;
+    &lt;string&gt;org-protocol handler&lt;/string&gt;
+    &lt;key&gt;CFBundleURLSchemes&lt;/key&gt;
+    &lt;array&gt;
+      &lt;string&gt;org-protocol&lt;/string&gt;
+    &lt;/array&gt;
+  &lt;/dict&gt;
+&lt;/array&gt;
+</pre></li>
+<li>保存文件，运行一次 OrgProtocolClient.app 进行注册。<br /></li>
+</ul>
+
+<p>
+完成上述步骤后，下一次在 roam 视图中选择相应的节点时就会自动调用 OrgProtocolClient.app<br />
+程序作为与 emacs 的接口，然后在 emacs 中自动跳转到相应的词条。<br />
+</p>
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/linux/qt/2022/02/03/Linux%E4%B8%8B%E5%9F%BA%E4%BA%8EMingw%E7%9A%84QT%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">
+            Linux下基于Mingw的QT开发环境配置
+            <small>03 Feb 2022</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/other/2021/04/13/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%8C%B9%E9%85%8D/">
+            正则表达式匹配
+            <small>13 Apr 2021</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/emacs/2021/04/10/emacs-lisp%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">
+            emacs lisp 学习记录
+            <small>10 Apr 2021</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+<div class="comments">
+    <div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = 'qrqBlog';
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = 'qrqBlog';
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+
+</div>
+
+      </div>
+    </div>
+
+    <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+    <script>
+      (function(document) {
+        var toggle = document.querySelector('.sidebar-toggle');
+        var sidebar = document.querySelector('#sidebar');
+        var checkbox = document.querySelector('#sidebar-checkbox');
+
+        document.addEventListener('click', function(e) {
+          var target = e.target;
+
+          if(!checkbox.checked ||
+             sidebar.contains(target) ||
+             (target === checkbox || target === toggle)) return;
+
+          checkbox.checked = false;
+        }, false);
+      })(document);
+    </script>
+
+    <div align="center" class="footer">
+        <a href="https://github.com/ariestiyansyah/naringu" target="_blank" title="naringu">Naringu</a>  is designed by Rizky Ariestiyansyah<br />Copyright © 2022 <br>
+    </div>
+  </body>
+</html>
+

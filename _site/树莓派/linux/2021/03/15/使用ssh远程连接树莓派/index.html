@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      使用ssh远程连接树莓派 &middot; QRQ's Blog
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/naringu.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/form.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700%7CPT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+  <link rel="alternate" type="application/rss+xml" title="Mozilla RSS" href="feed.category.xml">
+  </head>
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', '', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+<body class="theme-6dd">
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+      <!-- <img width="125" height="125" alt="A photo of ariestiyansyah" src="/images/head.jpg"> -->
+      <img width="125" height="125" alt="A photo of thinker" src="/images/head.jpg">
+    <p>自动化 | 模式识别 | 图像处理</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+    
+      
+        
+          <a class="sidebar-nav-item" href="/categories/">Category Index</a>
+        
+      
+    
+      
+    
+      
+        
+      
+    
+
+    <a class="sidebar-nav-item" href="http://github.com">GitHub project</a>
+    <span class="sidebar-nav-item">Version 2.0</span>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2022. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <h3 class="masthead-title">
+            <a href="/" title="Home">QRQ's Blog</a>
+            <small>生命不息，折腾不止</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="post">
+  <h1 class="post-title">使用ssh远程连接树莓派</h1>
+  <span class="post-date">15 Mar 2021</span>
+  <div id="outline-container-org95d9048" class="outline-2">
+<h2 id="org95d9048">基于 SSH 连接（命令行操控）</h2>
+<div class="outline-text-2" id="text-org95d9048">
+<ol class="org-ol">
+<li>创建一个空白文件，命名为 <b>wpa_supplicant.conf</b><br /></li>
+<li><p>
+文件中输入一下内容<br />
+</p>
+<pre class="example">
+country=CN
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+
+network={
+    ssid="******"
+    psk="*******"
+}
+</pre>
+<p>
+主要关注 <b>network</b> 中的内容，ssid 是 WiFi 名，psk 是 wifi 地址。此外可以设<br />
+置多个待选连接网络，但需要在 network 中额外增加一行 =priority=1=，里面的数<br />
+字代表连接的优先级。<br />
+</p></li>
+<li>将设置好的文件放入树莓派储存卡的 boot 盘下即可，然后重新启动，树莓派就会按<br />
+照事先设定好的网络自动进行连接。<br /></li>
+<li>将主机和待连接设备接入同一局域网下（同一个路由器）<br /></li>
+<li>登录路由器控制中心网页，进入 DHCP 界面查看树莓派 IP 地址<br /></li>
+<li><p>
+在命令行中输入：<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">ssh [userNanme]@[ip address]
+</pre>
+</div>
+<p>
+其中树莓派默认用户名是 <code>pi</code> <br />
+</p></li>
+<li>按照提示输入密码即可成功连接<br /></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgc68e06f" class="outline-2">
+<h2 id="orgc68e06f">通过 VNC Viewer 连接（有图形界面）</h2>
+<div class="outline-text-2" id="text-orgc68e06f">
+<ol class="org-ol">
+<li>在主机上安装 <b>VNC Viewer</b><br /></li>
+<li><p>
+ssh 远程连接树莓派，安装 <b>tightvncserver</b> ，具体命令如下：<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">sudo apt-get install tightvncserver
+</pre>
+</div></li>
+<li>在命令行输入 <code>tightvncserver</code> 激活 vnc，然后会提示设置登录密码，回车后就会<br />
+成功开启，然后会提供一个端口号。<br /></li>
+<li>在主机中打开 <b>VNC viewer</b> ，输入 <code>[ip]:[portName]</code> ，就可以连接到树莓派。</li>
+</ol>
+</div>
+</div>
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/linux/qt/2022/02/03/Linux%E4%B8%8B%E5%9F%BA%E4%BA%8EMingw%E7%9A%84QT%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">
+            Linux下基于Mingw的QT开发环境配置
+            <small>03 Feb 2022</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/other/2021/04/13/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%8C%B9%E9%85%8D/">
+            正则表达式匹配
+            <small>13 Apr 2021</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/emacs/2021/04/10/emacs-lisp%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">
+            emacs lisp 学习记录
+            <small>10 Apr 2021</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+<div class="comments">
+    <div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = 'qrqBlog';
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = 'qrqBlog';
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+
+</div>
+
+      </div>
+    </div>
+
+    <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+    <script>
+      (function(document) {
+        var toggle = document.querySelector('.sidebar-toggle');
+        var sidebar = document.querySelector('#sidebar');
+        var checkbox = document.querySelector('#sidebar-checkbox');
+
+        document.addEventListener('click', function(e) {
+          var target = e.target;
+
+          if(!checkbox.checked ||
+             sidebar.contains(target) ||
+             (target === checkbox || target === toggle)) return;
+
+          checkbox.checked = false;
+        }, false);
+      })(document);
+    </script>
+
+    <div align="center" class="footer">
+        <a href="https://github.com/ariestiyansyah/naringu" target="_blank" title="naringu">Naringu</a>  is designed by Rizky Ariestiyansyah<br />Copyright © 2022 <br>
+    </div>
+  </body>
+</html>
+

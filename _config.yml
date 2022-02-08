@@ -14,8 +14,9 @@ permalink:           pretty
 title:               QRQ's Blog
 tagline:             '生命不息，折腾不止'
 description:         '自动化 | 模式识别 | 图像处理'
-url:                 http://naringu.oonlab.com
-baseurl:             /
+domain: yz53665.github.io
+url: https://yz53665.github.io
+baseurl: /
 paginate:            7
 
 # About/contact

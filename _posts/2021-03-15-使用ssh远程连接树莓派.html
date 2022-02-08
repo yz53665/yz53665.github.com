@@ -1,0 +1,68 @@
+---
+layout: post
+title: 使用ssh远程连接树莓派
+categories:
+- 树莓派
+- linux
+---
+
+<div id="outline-container-org95d9048" class="outline-2">
+<h2 id="org95d9048"><span class="section-number-2">1</span> 基于 SSH 连接（命令行操控）</h2>
+<div class="outline-text-2" id="text-1">
+<ol class="org-ol">
+<li>创建一个空白文件，命名为 <b>wpa_supplicant.conf</b><br /></li>
+<li><p>
+文件中输入一下内容<br />
+</p>
+<pre class="example">
+country=CN
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+
+network={
+    ssid="******"
+    psk="*******"
+}
+</pre>
+<p>
+主要关注 <b>network</b> 中的内容，ssid 是 WiFi 名，psk 是 wifi 地址。此外可以设<br />
+置多个待选连接网络，但需要在 network 中额外增加一行 =priority=1=，里面的数<br />
+字代表连接的优先级。<br />
+</p></li>
+<li>将设置好的文件放入树莓派储存卡的 boot 盘下即可，然后重新启动，树莓派就会按<br />
+照事先设定好的网络自动进行连接。<br /></li>
+<li>将主机和待连接设备接入同一局域网下（同一个路由器）<br /></li>
+<li>登录路由器控制中心网页，进入 DHCP 界面查看树莓派 IP 地址<br /></li>
+<li><p>
+在命令行中输入：<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">ssh [userNanme]@[ip address]
+</pre>
+</div>
+<p>
+其中树莓派默认用户名是 <code>pi</code> <br />
+</p></li>
+<li>按照提示输入密码即可成功连接<br /></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgc68e06f" class="outline-2">
+<h2 id="orgc68e06f"><span class="section-number-2">2</span> 通过 VNC Viewer 连接（有图形界面）</h2>
+<div class="outline-text-2" id="text-2">
+<ol class="org-ol">
+<li>在主机上安装 <b>VNC Viewer</b><br /></li>
+<li><p>
+ssh 远程连接树莓派，安装 <b>tightvncserver</b> ，具体命令如下：<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">sudo apt-get install tightvncserver
+</pre>
+</div></li>
+<li>在命令行输入 <code>tightvncserver</code> 激活 vnc，然后会提示设置登录密码，回车后就会<br />
+成功开启，然后会提供一个端口号。<br /></li>
+<li>在主机中打开 <b>VNC viewer</b> ，输入 <code>[ip]:[portName]</code> ，就可以连接到树莓派。</li>
+</ol>
+</div>
+</div>

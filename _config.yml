@@ -3,7 +3,7 @@ markdown:            kramdown
 highlighter:         rouge
 
 # Gems (for Jekyll 3.0)
-gems: [jekyll-paginate]
+plugins: [jekyll-paginate]
 
 # Permalinks
 #
@@ -11,26 +11,25 @@ gems: [jekyll-paginate]
 permalink:           pretty
 
 # Setup
-title:               Naringu
-tagline:             'A Hacker like jekyll theme'
-description:         'oonlab is crafted with <3 by ariestiyansyah.'
+title:               QRQ's Blog
+tagline:             '生命不息，折腾不止'
+description:         '自动化 | 模式识别 | 图像处理'
 url:                 http://naringu.oonlab.com
 baseurl:             /
 paginate:            7
 
 # About/contact
 author:
-  name:              Rizky Ariestiyansyah
-  url:               https://twitter.com/ariestiyansyah
-  email:             ariestiyansyah.rizky@gmail.com
+  name:              QRQ
+  url:               https://github.com/yz53665
+  email:             875423353@qq.com
 
 # Custom vars
 version:             2.0
 
 # Social Media
-github:				http://github.com/ariestiyansyah
-twitter:			http://twitter.com/ariestiyansyah
-disqus:             testnaringu
+github:				http://github.com/yz53665
+disqus:             qrqBlog
 
 # Theme Author (Please don't edit this line cause of MIT LICENSE rules)
 theme:

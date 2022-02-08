@@ -1,0 +1,152 @@
+---
+layout: post
+title: emacs lisp 学习记录
+categories:
+- emacs
+---
+
+<div id="outline-container-org891fecc" class="outline-2">
+<h2 id="org891fecc"><span class="section-number-2">1</span> 基础</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>2.表示整数, 2.0 才表示浮点数<br /></li>
+<li>函数以 p 结尾一般都会返回 bool 值, p 表示 predicate （断言）<br /></li>
+<li>nil 和（）表示 False, 其它都是 True<br /></li>
+<li>数字比较相等 <b>(= 3 3)</b> 不相等 <b>(/= 3 4)</b><br /></li>
+<li>字符比较 equal , 字符("abc")和标志('abc)是相等的, 不相等用(not)<br /></li>
+<li><p>
+函数 eq 比较两者是否是统一 lisp 对象, 大部分时间不同<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp">(princ (eq 'a 'a))
+(print (eq <span style="color: #66cccc;">"a"</span> <span style="color: #66cccc;">"a"</span>))
+</pre>
+</div></li>
+<li>setq 设置全局变量<br /></li>
+<li>let 中 setq 设置的是局部变量<br /></li>
+<li>当有 else 时使用 if, 没有的时候使用 when<br /></li>
+<li>当 if 语句不止一条时,可以使用 progn 来创建一个语句块, 且它会返回最后一个表达<br />
+式的值<br /></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org63bb1e6" class="outline-2">
+<h2 id="org63bb1e6"><span class="section-number-2">2</span> 序列数据</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org0c65e7c" class="outline-3">
+<h3 id="org0c65e7c"><span class="section-number-3">2.1</span> 数据分类</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+sequence (取值用函数 elt)<br />
+</p>
+<ul class="org-ul">
+<li>list<br />
+<ul class="org-ul">
+<li>Associate List<br /></li>
+<li>Peoperty list<br /></li>
+</ul></li>
+<li>array (取值用函数 aref)<br />
+<ul class="org-ul">
+<li>vector<br /></li>
+<li>string<br /></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org63136e1" class="outline-3">
+<h3 id="org63136e1"><span class="section-number-3">2.2</span> 数组</h3>
+<div class="outline-text-3" id="text-2-2">
+<ul class="org-ul">
+<li><p>
+数组的运行与否<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp">(<span style="color: #99cc99;">setq</span> v (vector 3 x 5))
+(princ v)
+(<span style="color: #99cc99;">setq</span> v [3 x 5])
+(print v)
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgc675f4c" class="outline-3">
+<h3 id="orgc675f4c"><span class="section-number-3">2.3</span> list</h3>
+<div class="outline-text-3" id="text-2-3">
+<ul class="org-ul">
+<li><p>
+创建方式<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp"><span id="coderef-auto" class="coderef-off">(<span style="color: #99cc99;">setq</span> mylist (list 1 <span style="color: #66cccc;">"b"</span> 3)) (auto)</span>
+(princ mylist)
+<span id="coderef-noauto" class="coderef-off">(<span style="color: #99cc99;">setq</span> mylist '(a b c)) (noauto)</span>
+(print mylist)
+</pre>
+</div>
+
+<ul class="org-ul">
+<li><a href="#coderef-auto" class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-auto');" onmouseout="CodeHighlightOff(this, 'coderef-auto');">auto</a>自动计算<br /></li>
+<li><a href="#coderef-noauto" class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-noauto');" onmouseout="CodeHighlightOff(this, 'coderef-noauto');">noauto</a>不自动计算<br /></li>
+</ul></li>
+
+<li><p>
+数字序列<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp">(print (number-sequence 1 10 3))
+</pre>
+</div></li>
+
+<li><p>
+获取列表元素<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp">(<span style="color: #99cc99;">setq</span> li (list <span style="color: #66cccc;">"a"</span> <span style="color: #66cccc;">"b"</span> <span style="color: #66cccc;">"c"</span>))
+<span id="coderef-first" class="coderef-off">(princ (car li)) (first)</span>
+<span id="coderef-lastList" class="coderef-off">(print (last li)) (lastList)</span>
+<span id="coderef-last" class="coderef-off">(princ (car (last li))) (last)</span>
+<span id="coderef-1th" class="coderef-off">(print (nth 1 li)) (1th)</span>
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org3933cbe" class="outline-3">
+<h3 id="org3933cbe"><span class="section-number-3">2.4</span> 函数</h3>
+<div class="outline-text-3" id="text-2-4">
+<p>
+当函数可以通过 <code>M-x</code> 执行时就称函数是 <b>interactive</b> ,要使函数是可调用的, 需要<br />
+在函数中的 doc 后面加上 <b>(interactive)</b> 关键字<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp">(<span style="color: #99cc99;">defun</span> <span style="color: #f99157;">yay</span> ()
+     <span style="color: #cc99cc;">"Insert yay at the cursor position"</span>
+     (<span style="color: #99cc99;">interactive</span>)
+     (insert <span style="color: #66cccc;">"yay!"</span>))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb974bb3" class="outline-3">
+<h3 id="orgb974bb3"><span class="section-number-3">2.5</span> evil 编程</h3>
+<div class="outline-text-3" id="text-2-5">
+</div>
+<div id="outline-container-orgbdc8fda" class="outline-4">
+<h4 id="orgbdc8fda"><span class="section-number-4">2.5.1</span> 选择区域</h4>
+<div class="outline-text-4" id="text-2-5-1">
+<ul class="org-ul">
+<li>evil-visual-end/beginning<br />
+variable<br />
+记录 evil visual-mode 下选择的区域开头/结尾的位置</li>
+</ul>
+</div>
+</div>
+</div>
+</div>

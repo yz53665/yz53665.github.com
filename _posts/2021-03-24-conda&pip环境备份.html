@@ -1,0 +1,22 @@
+---
+layout: post
+title: conda&pip环境备份
+categories:
+- python
+---
+<p>
+备份
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">pip freeze &gt; requirement.txt
+conda list -e &gt; requirement.txt
+</pre>
+</div>
+<p>
+环境恢复
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">pip install -r requirement.txt
+conda install --yes --file requirement.txt
+</pre>
+</div>

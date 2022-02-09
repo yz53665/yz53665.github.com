@@ -1,0 +1,98 @@
+---
+layout: post
+title: org-bable使用基础
+categories:
+- emacs
+- org-mode
+---
+
+
+<div id="outline-container-orgdf88607" class="outline-2">
+<h2 id="orgdf88607">code blocks 结构</h2>
+<div class="outline-text-2" id="text-orgdf88607">
+<p>
+简化形式：
+</p>
+<pre class="example">
+src_&lt;language&gt;{&lt;body&gt;}  or
+src_&lt;language&gt;[&lt;header arguments&gt;]{&lt;body&gt;}
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orge71e339" class="outline-2">
+<h2 id="orge71e339">基础设置</h2>
+<div class="outline-text-2" id="text-orge71e339">
+<p>
+几个基本参数设置：
+</p>
+<ul class="org-ul">
+<li>org-edit-src-auto-save-idle-delay
+设置每隔多长时间自动保存代码块中的内容</li>
+<li>org-edit-src-turn-on-auto-save
+将代码块中的内容自动保存到单独的文件中</li>
+<li>org-src-window-setup
+设置 <code>c-c ’</code> 后代码编辑窗口的位置</li>
+<li>org-src-preserve-indentation
+设置导出和 tangled 是否保留还是重新设置代码的缩进，如果设置成 nil，导出后缩
+进会被重新安排，非 nil 设置时会保留原本 codeblocks 中展示的缩进</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orge009657" class="outline-2">
+<h2 id="orge009657">org 导出代码块</h2>
+</div>
+<div id="outline-container-orgbd4f722" class="outline-2">
+<h2 id="orgbd4f722">采坑记录</h2>
+<div class="outline-text-2" id="text-orgbd4f722">
+<p>
+python 如果设置 <code>:session</code> 就不要使用 <code>return</code> 返回内容，否则会报错显示不在函
+数范围内
+</p>
+</div>
+<div id="outline-container-org17d1d99" class="outline-3">
+<h3 id="org17d1d99">python 如何便捷输出图片结果？</h3>
+<div class="outline-text-3" id="text-org17d1d99">
+<p>
+可以进行如下设置:
+</p>
+<pre class="example">
+#+begin_src: python :results output file :session [运行环境名] -n -r
+print('picture.png')
+#+end_src
+</pre>
+<ul class="org-ul">
+<li>[运行环境名]：类似 python 这样的语言可以将不同的代码块运行在同一共享数据的
+持久化环境中，这里可以设置该环境的名字。之后的代码块只要设置了相同的名字就
+可以共享数据</li>
+<li><p>
+:results output file
+设置为 <b>output</b> 后所有代码块中打印的内容都会在结果中显示出来， <b>file</b> 则说
+明所有输出对象是对已存在的文件的引用，自动将输出转化为 <code>[file: 文件名]</code>
+的格式，这样插入图片后可以通过 <code>org-display-inline-images</code> 在代码块下面显示
+图片，实现类似 jupyter notebook 的效果
+演示如下：
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #99cc99;">import</span> numpy <span style="color: #99cc99;">as</span> np
+<span style="color: #99cc99;">import</span> pandas <span style="color: #99cc99;">as</span> pd
+<span style="color: #99cc99;">import</span> matplotlib.pyplot <span style="color: #99cc99;">as</span> plt
+
+<span style="color: #ffcc66;">plt.rcParams</span>[<span style="color: #66cccc;">'font.sans-serif'</span>] = [<span style="color: #66cccc;">'Hiragino Sans GB'</span>] <span style="color: #999999; font-style: italic;"># </span><span style="color: #999999; font-style: italic;">&#29992;&#26469;&#27491;&#24120;&#26174;&#31034;&#20013;&#25991;&#26631;&#31614;</span>
+<span style="color: #ffcc66;">plt.rcParams</span>[<span style="color: #66cccc;">'axes.unicode_minus'</span>] = <span style="color: #6699cc;">False</span> <span style="color: #999999; font-style: italic;"># </span><span style="color: #999999; font-style: italic;">&#29992;&#26469;&#27491;&#24120;&#26174;&#31034;&#36127;&#21495; </span>
+
+<span style="color: #ffcc66;">ts</span> = pd.Series(np.random.randn(1000),
+               index=pd.date_range(<span style="color: #66cccc;">"1/1/2000"</span>, periods=1000))
+<span style="color: #ffcc66;">ts</span> = ts.cumsum()
+
+ts.plot()
+plt.savefig(<span style="color: #66cccc;">'picture.png'</span>)
+<span style="color: #99cc99;">print</span>(<span style="color: #66cccc;">'picture.png'</span>)
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+</div>

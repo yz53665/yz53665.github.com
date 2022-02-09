@@ -14,9 +14,9 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 email: 875423353@qq.com
-baseurl: //
 domain: yz53665.github.io
-url: https://yz53665.github.io/
+url: https://yz53665.github.io
+baseurl: \
 github_username: yz53665
 
 # Build settings

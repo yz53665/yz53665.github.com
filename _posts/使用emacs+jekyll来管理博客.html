@@ -1,0 +1,53 @@
+---
+title: 使用emacs+Jekyll管理博客
+layout: post
+author: qrq
+categories:
+- emacs
+- blog
+---
+
+
+<div id="outline-container-orgacae543" class="outline-2">
+<h2 id="orgacae543">使用emacs+Jekyll管理网站</h2>
+<div class="outline-text-2" id="text-orgacae543">
+</div>
+<div id="outline-container-orgd105878" class="outline-3">
+<h3 id="orgd105878">文件头</h3>
+<div class="outline-text-3" id="text-orgd105878">
+<p>
+需要在文件头加上如下内容：<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #999999; background-color: #2d2d2d; font-style: italic;">#+BEGIN_EXPORT html</span>
+<span style="color: #cb4b16; background-color: #333333333333;">---</span>
+<span style="color: #cb4b16; background-color: #333333333333;">layout: default</span>
+<span style="color: #cb4b16; background-color: #333333333333;">title: Benighted on the Ben.</span>
+<span style="color: #cb4b16; background-color: #333333333333;">excerpt: An unplanned bivouac on Ben Nevis.</span>
+<span style="color: #cb4b16; background-color: #333333333333;">---</span>
+<span style="color: #999999; background-color: #2d2d2d; font-style: italic;">#+END_EXPORT</span>
+<span style="color: #999999; font-style: italic;">#+OPTIONS: toc:nil</span>
+</pre>
+</div>
+<p>
+<code>#+BEGIN_EXPORT html</code> 保证导出成 html 时包含的内容可以被原封不动的转换到 html 文件中，<br />
+<code>---</code> 中的内容与 jekyll 页面设置有关, <code>#+OPTIONS: toc:nil</code> 设置生成的html文件不包含目录,防止<br />
+覆盖jekyll设置.<br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4f974cd" class="outline-3">
+<h3 id="org4f974cd">自动化操作</h3>
+<div class="outline-text-3" id="text-org4f974cd">
+<p>
+emacs 非常贴心的提供了两个 hook，帮助在导出后完成后自动进行下一步处理：<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp">org-export-html-final-hook      <span style="color: #999999; font-style: italic;">;;</span><span style="color: #999999; font-style: italic;">always</span>
+org-publish-after-export-hook   <span style="color: #999999; font-style: italic;">;;</span><span style="color: #999999; font-style: italic;">when going through org-publish</span>
+</pre>
+</div>
+</div>
+</div>
+</div>

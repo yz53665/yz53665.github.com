@@ -1,0 +1,188 @@
+---
+layout: post
+title: 博客搭建记录
+categories:
+- blog
+---
+
+<div id="outline-container-orgfe041c9" class="outline-2">
+<h2 id="orgfe041c9">安装 Jekyll (Mac OS)</h2>
+<div class="outline-text-2" id="text-orgfe041c9">
+</div>
+<div id="outline-container-org9025bda" class="outline-3">
+<h3 id="org9025bda">安装 Ruby</h3>
+<div class="outline-text-3" id="text-org9025bda">
+<div class="org-src-container">
+<pre class="src src-bash">brew reinstall ruby
+</pre>
+</div>
+<p>
+Tips：mac 下的 ruby 已经包含了 RubyGems
+</p>
+<div class="org-src-container">
+<pre class="src src-bash"><span style="color: #cc99cc;">echo</span> <span style="color: #66cccc;">'export PATH="/usr/local/opt/ruby/bin:$PATH"'</span> &gt;&gt; ~/.zshrc
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgbc13b8b" class="outline-3">
+<h3 id="orgbc13b8b">重新安装 Xcode command Line Tool</h3>
+<div class="outline-text-3" id="text-orgbc13b8b">
+<div class="org-src-container">
+<pre class="src src-bash">sudo gem update --system
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgcb9f9d4" class="outline-3">
+<h3 id="orgcb9f9d4">安装 Jekyll</h3>
+<div class="outline-text-3" id="text-orgcb9f9d4">
+<div class="org-src-container">
+<pre class="src src-bash">sudo gem install jekyll --pre
+</pre>
+</div>
+<p>
+速度会比较慢，请耐心等待
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd466623" class="outline-2">
+<h2 id="orgd466623">使用github + Jekyll创建网站</h2>
+<div class="outline-text-2" id="text-orgd466623">
+</div>
+<div id="outline-container-org4c57324" class="outline-3">
+<h3 id="org4c57324">在本地创建Jekyll项目</h3>
+<div class="outline-text-3" id="text-org4c57324">
+<p>
+首先初始化文件夹：
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">jekyll new JekyllBlog
+</pre>
+</div>
+<p>
+该令会在当前目录下创建一个叫 <b>JekyllBlog</b> 的文件夹，里面会包含网站需要的基本
+文件。
+</p>
+
+<p>
+进入创建的文件夹下，打开Gemfile，将里面 <code>gem "jekyll"</code> 开头的行注释掉，将这一
+行改为：
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">gem <span style="color: #66cccc;">"github-pages"</span>, <span style="color: #66cccc;">"~&gt; GITHUB-PAGES-VERSION"</span>, group: :jekyll_plugins
+</pre>
+</div>
+<p>
+其中 <b>GITHUB-PAGES-VERSION</b> 替换成这个<a href="https://pages.github.com/versions/">网站</a>中 <b>github-pages</b> 的最新版本号。
+保存后在命令行输入 <code>bundle install</code> 更新插件。
+</p>
+
+<p>
+之后在命令行输入 <code>bundle exec jekyll serve</code> 启动Jekyll本地服务（如果没有使用
+bundle，则输入=jekyll serve=来启动），Jekyll会在 <b>_sites</b> 文件夹下生成临时的网
+站文件，可以在浏览器输入<a href="http://127.0.0.1:4000//">http://127.0.0.1:4000//</a>来访问，检查网站效果。
+</p>
+
+<p>
+更多的设置可以参考<a href="http://jekyllcn.com/docs/home/">Jekyll</a>和<a href="https://docs.github.com/en/pages">Github Pages</a>的文档。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org64d76c3" class="outline-3">
+<h3 id="org64d76c3">Jekyll 目录结构</h3>
+<div class="outline-text-3" id="text-org64d76c3">
+<p>
+Jekyll目录下生成的文件让人眼花缭乱，但平时我们最常接触到的其实就只有以下几个：
+</p>
+<ul class="org-ul">
+<li>_config.yml  属性设置文件，网站的关键属性设置，也可以自定义变量，在html文件
+中使用 {{site.xxx}} 来调用</li>
+<li>_posts文件夹  我们的文本文件都放在这里面，目前最常用的是markdown文件和html文件</li>
+<li>_layouts文件夹  用于放置网页模板文件</li>
+<li>_sites文件夹 当启动本地Jekyll服务时会在里面生成静态网页文件，本质上是
+将_layouts里面的模板全部应用到_posts文件夹下的文本文件并自动生成html文件，
+Github Pages会自动帮你处理，所以可以将该文件夹添加到.gitignore中</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org58950b5" class="outline-3">
+<h3 id="org58950b5">在github上创建repo</h3>
+<div class="outline-text-3" id="text-org58950b5">
+<p>
+要想通过github pages生成网站，需要在github上创建一个叫做 <b>USERNAME.github.com</b>
+的repo，以后你的个人网站地址就是 <a href="https://username.github.io">https://username.github.io</a>。
+在push到github之前需要在 <code>_conf.yml</code> 中加入以下内容:
+</p>
+<div class="org-src-container">
+<pre class="src src-jekyll">url: https://USERNAME.github.io
+baseurl: /REPOSITORY-NAME/
+</pre>
+</div>
+<ul class="org-ul">
+<li>url 网站地址</li>
+<li>baseurl 主目录地址，用于查找图片、视频等本地文件</li>
+</ul>
+<p>
+然后在本地的Jekyll项目目录下设置远程仓库的地址：
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">git init
+git add .
+git commit -m <span style="color: #66cccc;">'first release'</span>
+git remote set-url origin [github&#20179;&#24211;&#22320;&#22336;]
+</pre>
+</div>
+<p>
+这事就可以将Jekyll项目push到github仓库里：
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">git push
+</pre>
+</div>
+<p>
+稍微等待一段时间，就可以进入 <a href="https://username.github.io">https://username.github.io</a> 查看网站效果了。
+</p>
+
+<p>
+如果想要一些酷炫的主题，可以看看<a href="https://jekyllrb.com/docs/themes/">官方文档</a>。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org75e022c" class="outline-3">
+<h3 id="org75e022c">添加新的网页</h3>
+<div class="outline-text-3" id="text-org75e022c">
+<p>
+在写好的markdown或html文件开头添加以下内容
+</p>
+<div class="org-src-container">
+<pre class="src src-html">---
+layout: default
+title: Benighted on the Ben.
+---
+</pre>
+</div>
+<ul class="org-ul">
+<li>layout 使用的模板，就是 <b>_layouts</b> 文件夹下的模板文件名</li>
+<li>title 文章的标题</li>
+</ul>
+<p>
+这个东西称为文件头，更多的设置选项可以查看Jekyll的
+<a href="http://jekyllcn.com/docs/frontmatter/">文档</a>。
+</p>
+
+<p>
+然后将文件命名为 <code>year-month-date-title.html/md</code> ，注意必须按照这个格式来，否
+则Jekyll无法识别。最后将文件放入 <b>_posts</b> 文件夹下即可，剩下的工作Jekyll会替
+你完成。
+</p>
+</div>
+</div>
+</div>

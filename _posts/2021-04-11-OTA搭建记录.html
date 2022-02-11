@@ -1,0 +1,97 @@
+---
+title: 阿里云OTA搭建
+layout: post
+author: qrq
+categories:
+- cloud
+- IOT
+---
+
+
+<div id="outline-container-org6770ccb" class="outline-2">
+<h2 id="org6770ccb">SDK 设置</h2>
+<div class="outline-text-2" id="text-org6770ccb">
+</div>
+<div id="outline-container-orge0fac00" class="outline-3">
+<h3 id="orge0fac00">获取 SDK 库</h3>
+<div class="outline-text-3" id="text-orge0fac00">
+<p>
+阿里云物联平台 -》 公共实例 -》SDK 定制 -》 选择功能 -》开始生成<br />
+可以获得一个生成的 LinkSDK 文件夹,内部包含开发过程所需的所有函数、makefile 示<br />
+例、功能函数、各功能实例, 下面以 OTA 为例<br />
+</p>
+</div>
+</div>
+<div id="outline-container-org2f58d50" class="outline-3">
+<h3 id="org2f58d50">使用 SDK 库</h3>
+<div class="outline-text-3" id="text-org2f58d50">
+<ol class="org-ol">
+<li>将 LinkSDK 文件夹放到自己的工程文件下(假设工程文件夹叫 project)<br /></li>
+<li>将 project/LinkSDK/demos/下 mqtt_basics_demo.c 放到 project/下。<br /></li>
+<li>将 mqtt_basics_demo.c 中 main 函数重命名为 mqtt_test<br /></li>
+<li>参照/LinkSDK/makefile 重写工程 makefile<br /></li>
+<li><p>
+在自己的工程文件下 main 函数中调用 mqtt_test<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-c"><span style="color: #99cc99;">extern</span> <span style="color: #6699cc;">int</span> <span style="color: #f99157;">fota_test</span>(<span style="color: #6699cc;">int</span> <span style="color: #ffcc66;">argc</span>, <span style="color: #6699cc;">char</span> *<span style="color: #ffcc66;">argv</span>[]);
+
+<span style="color: #6699cc;">int</span> <span style="color: #f99157;">main</span>(<span style="color: #6699cc;">void</span>){
+  printf(<span style="color: #66cccc;">"Hellow, world!"</span>);
+  fota_test(0, <span style="color: #6699cc;">NULL</span>);
+  <span style="color: #99cc99;">return</span> 0;
+}
+</pre>
+</div></li>
+<li>进入命令行, 在 project/目录下运行 make 编译 c 文件<br /></li>
+<li>运行编译好的程序, 可以看到程序与阿里云平台正常建立连接<br /></li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-org4dcf5ef" class="outline-2">
+<h2 id="org4dcf5ef">OTA 配置</h2>
+<div class="outline-text-2" id="text-org4dcf5ef">
+</div>
+<div id="outline-container-orgea942b0" class="outline-3">
+<h3 id="orgea942b0">前期配置</h3>
+<div class="outline-text-3" id="text-orgea942b0">
+<p>
+参考 <b>使用SDK库</b> 的说明, 对 fota_posix_demo.c 文件进行类似于 mqtt_basics_demo.c<br />
+的操作。<br />
+</p>
+</div>
+</div>
+<div id="outline-container-org8333a53" class="outline-3">
+<h3 id="org8333a53">设备辨识</h3>
+<div class="outline-text-3" id="text-org8333a53">
+<p>
+每个设备都需要有唯一辨识的方法, 以便于云平台对每个设备精准追踪。下面将在阿里<br />
+云平台上生成对应的设备标识:<br />
+</p>
+<ol class="org-ol">
+<li>阿里云物联平台 -》 公共实例 -》 设备管理 -》 产品 -》创建产品<br /></li>
+<li>点击设备 -》 添加设备, 创建完成后选择查看, 点击 DeviceSecret 右边的查看<br /></li>
+<li>记录 ProductKey、DeviceName、DeviceSecret 三个参数<br /></li>
+<li>修改*_demo.c 文件下的三个参数<br /></li>
+</ol>
+<p>
+如此便可完成设备标志的设置<br />
+</p>
+</div>
+</div>
+<div id="outline-container-org95c8644" class="outline-3">
+<h3 id="org95c8644">OTA 工作流程与版本号设置</h3>
+<div class="outline-text-3" id="text-org95c8644">
+<p>
+版本号是 OTA 中非常重要的一个部分。这里的版本号包括两个部分：升级前版本号和<br />
+升级后版本号。<br />
+在 OAT 升级的整个过程中, 终端设备需要首先向云平台发送本机版本号, 云平台根据<br />
+设备的版本号确定该设备是否需要升级。在设备下载完升级包后, 设备也需要向云平台<br />
+重新发送本机版本号。由于 OTA 不包含将新的内容烧录到内存中的操作, 该操作由设备<br />
+厂商完成, 所以下载完成后返回的版本号是云平台判断是否升级成功的唯一方法。<br />
+因此在使用 OTA 前注意需要在 fota_posix_demo.c 文件中设置对应升级前后的版本号<br />
+（注意有两个地方需要设置）。</p>
+</div>
+</div>
+</div>

@@ -2,7 +2,7 @@
 layout: post
 title: 基于anaconda+pycharm/vscode的python环境配置
 categories:
-- Python
+- python
 ---
 
 
@@ -11,7 +11,6 @@ categories:
 anaconda是python下包含环境管理、包管理功能的工具。通过它可以非常方便的创建多个独立于系统、互相平行的python环境，每个环境互不干扰。
 
 ## Windows环境下配置
-
 从官网[Anaconda | Individual Edition](https://www.anaconda.com/products/individual)下载anaconda安装包（新手不建议用miniconda）。
 
 安装时在这一个页面只勾选第二个即可。
@@ -75,7 +74,6 @@ conda activate deepLearning
 ```bash
 pip install matplotlib scikit-learn h5py tensorflow==2.5 opencv-contrib-python
 ```
-
 如果安装速度比较慢，可能需要换源，在后面加上**-i https://pypi.tuna.tsinghua.edu.cn/simple** 改为使用清华镜像：
 
 ```
@@ -87,7 +85,6 @@ pip install matplotlib scikit-learn h5py tensorflow==2.5 opencv-contrib-python -
 ## 编辑器开发环境配置（二选一）
 
 ### VsCode
-
 下载安装包[Download Visual Studio Code - Mac, Linux, Windows](https://code.visualstudio.com/Download)，如图所示：
 
 ![image-20220124172138195](/img/image-20220124172138195.png)
@@ -111,7 +108,6 @@ VsCode打开安装包后选择路径、勾上创建桌面快捷方式，然后�
 上面提示没有.dll文件是正常的，之后需要安装cuda和cudnn来实现gpu加速。
 
 ### PyCharm
-
 下载安装包[Download PyCharm: Python IDE for Professional Developers by JetBrains](https://www.jetbrains.com/pycharm/download/#section=windows)，选择community版本即可，如果需要专业版可以用自己的学校邮箱申请，一般community版本就够用了。
 
 安装时有配置界面，左边第一个是创建桌面快捷方式，第二个是将”作为项目使用Pycharm打开当前文件夹“这一选项添加到鼠标右键菜单，第三个是默认使用Pycharm打开.py文件，右边第一个是将Pycharm的bin文件夹加入PATH（不推荐），可以根据自己喜好选择。
